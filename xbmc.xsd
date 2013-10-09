@@ -41,7 +41,7 @@
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="animationType">
-    <xs:simpleContent>
+    <!--<xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="effect" use="optional">
           <xs:simpleType>
@@ -57,8 +57,48 @@
         <xs:attribute type="xs:string" name="time" use="optional"/>
         <xs:attribute type="xs:string" name="end" use="optional"/>
       </xs:extension>
-    </xs:simpleContent>
+    </xs:simpleContent>-->
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element name="effect">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute type="animationEffectsType" name="type" />
+              <xs:attribute type="xs:boolean" name="pulse" />
+              <xs:attribute type="xs:boolean" name="loop" />
+              <xs:attribute type="xs:integer" name="start" />
+              <xs:attribute type="xs:integer" name="end" />
+              <xs:attribute type="xs:integer" name="delay" />
+              <xs:attribute type="xs:integer" name="time" />
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+    <xs:attribute type="effectsType" name="type" />
+    <xs:attribute type="xs:string" name="condition" />
+    <xs:attribute type="xs:boolean" name="reversible" />
   </xs:complexType>
+  <xs:simpleType name="animationEffectsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="fade"/>
+      <xs:enumeration value="slide"/>
+      <xs:enumeration value="zoom" />
+      <xs:enumeration value="rotate" />
+      <xs:enumeration value="rotatex" />
+      <xs:enumeration value="rotatey" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="effectsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="visible" />
+      <xs:enumeration value="hidden" />
+      <xs:enumeration value="focus" />
+      <xs:enumeration value="unfocus" />
+      <xs:enumeration value="windowopen" />
+      <xs:enumeration value="windowclose" />
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="textureType">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -228,6 +268,4 @@
       <xs:enumeration value="slider" />
     </xs:restriction>
   </xs:simpleType>
-
-
 </xs:schema>
