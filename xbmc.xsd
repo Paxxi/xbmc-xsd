@@ -12,7 +12,15 @@
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
-      <xs:element type="xs:string" name="onunload" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="onunload" maxOccurs="unbounded" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="condition" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element type="defaultcontrolType" name="defaultcontrol" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:string" name="allowoverlay" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:string" name="backgroundcolor" maxOccurs="1" minOccurs="0"/>
@@ -66,10 +74,10 @@
               <xs:attribute type="animationEffectsType" name="type" />
               <xs:attribute type="xs:boolean" name="pulse" />
               <xs:attribute type="xs:boolean" name="loop" />
-              <xs:attribute type="xs:integer" name="start" />
-              <xs:attribute type="xs:integer" name="end" />
-              <xs:attribute type="xs:integer" name="delay" />
-              <xs:attribute type="xs:integer" name="time" />
+              <xs:attribute type="xs:float" name="start" />
+              <xs:attribute type="xs:float" name="end" />
+              <xs:attribute type="xs:float" name="delay" />
+              <xs:attribute type="xs:float" name="time" />
             </xs:extension>
           </xs:simpleContent>
         </xs:complexType>
