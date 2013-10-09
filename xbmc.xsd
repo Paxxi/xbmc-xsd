@@ -2,8 +2,16 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="window" type="windowType"/>
   <xs:complexType name="windowType">
-    <xs:sequence>
-      <xs:element type="xs:string" name="onload" maxOccurs="unbounded" minOccurs="0"/>
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element name="onload" maxOccurs="unbounded" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="condition" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element type="xs:string" name="onunload" maxOccurs="unbounded" minOccurs="0"/>
       <xs:element type="defaultcontrolType" name="defaultcontrol" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:string" name="allowoverlay" maxOccurs="1" minOccurs="0"/>
@@ -15,7 +23,7 @@
       <xs:element type="coordinatesType" name="coordinates" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:string" name="previouswindow" maxOccurs="1" minOccurs="0"/>
       <xs:element type="controlsType" name="controls"/>
-    </xs:sequence>
+    </xs:choice>
     <xs:attribute type="xs:string" name="type"/>
   </xs:complexType>
   <xs:complexType name="bordertextureType">
@@ -35,7 +43,17 @@
   <xs:complexType name="animationType">
     <xs:simpleContent>
       <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="effect" use="optional"/>
+        <xs:attribute name="effect" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="fade"/>
+              <xs:enumeration value="slide"/>
+              <xs:enumeration value="zoom" />
+              <xs:enumeration value="WindowOpen" />
+              <xs:enumeration value="WindowClose" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
         <xs:attribute type="xs:string" name="time" use="optional"/>
         <xs:attribute type="xs:string" name="end" use="optional"/>
       </xs:extension>
@@ -51,12 +69,14 @@
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="controlsType">
-    <xs:sequence>
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="xs:string" name="include"/>
       <xs:element type="controlType" name="control"/>
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="controlType" mixed="true">
     <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="xs:string" name="include"/>
       <xs:element type="xs:string" name="description"/>
       <xs:element type="xs:string" name="type"/>
       <xs:element type="xs:string" name="id"/>
@@ -123,6 +143,7 @@
       <xs:element type="xs:string" name="onclick"/>
       <xs:element type="xs:string" name="onfocus"/>
       <xs:element type="xs:string" name="onunfocus"/>
+      <xs:element type="xs:string" name="onback"/>
       <xs:element type="xs:string" name="textureradioon"/>
       <xs:element type="xs:string" name="textureradiooff"/>
       <xs:element type="xs:string" name="selected"/>
@@ -172,7 +193,7 @@
       <xs:element type="xs:string" name="hinttext"/>
     </xs:choice>
     <xs:attribute type="controlchoiceType" name="type" use="required"/>
-    <xs:attribute type="xs:string" name="id" use="required"/>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
   </xs:complexType>
   <xs:complexType name="coordinatesType">
     <xs:sequence>
@@ -189,14 +210,24 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="controlchoiceType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="image"/>
-        <xs:attribute type="xs:string" name="label"/>
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
+  <xs:simpleType name="controlchoiceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="image" />
+      <xs:enumeration value="label" />
+      <xs:enumeration value="spin" />
+      <xs:enumeration value="edit" />
+      <xs:enumeration value="list" />
+      <xs:enumeration value="fadelabel" />
+      <xs:enumeration value="textbox" />
+      <xs:enumeration value="progress" />
+      <xs:enumeration value="button" />
+      <xs:enumeration value="checkmark" />
+      <xs:enumeration value="group" />
+      <xs:enumeration value="grouplist" />
+      <xs:enumeration value="radiobutton" />
+      <xs:enumeration value="slider" />
+    </xs:restriction>
+  </xs:simpleType>
 
 
 </xs:schema>
