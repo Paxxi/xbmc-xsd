@@ -49,23 +49,6 @@
     </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="animationType">
-    <!--<xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="effect" use="optional">
-          <xs:simpleType>
-            <xs:restriction base="xs:string">
-              <xs:enumeration value="fade"/>
-              <xs:enumeration value="slide"/>
-              <xs:enumeration value="zoom" />
-              <xs:enumeration value="WindowOpen" />
-              <xs:enumeration value="WindowClose" />
-            </xs:restriction>
-          </xs:simpleType>
-        </xs:attribute>
-        <xs:attribute type="xs:string" name="time" use="optional"/>
-        <xs:attribute type="xs:string" name="end" use="optional"/>
-      </xs:extension>
-    </xs:simpleContent>-->
     <xs:choice maxOccurs="unbounded" minOccurs="0">
       <xs:element name="effect">
         <xs:complexType>
@@ -168,12 +151,15 @@
       <xs:element type="xs:string" name="pauseatend"/>
       <xs:element type="xs:string" name="resetonlabelchange"/>
       <xs:element name="aspectratio">
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="keep"/>
-            <xs:enumeration value="scale"/>
-          </xs:restriction>
-        </xs:simpleType>
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="aspectratioType">
+                <xs:attribute name="align" type="alignType" />
+                <xs:attribute name="aligny" type="alignyType" />
+                <xs:attribute name="scalediffuse" type="xs:boolean" />
+             </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
       </xs:element>
       <xs:element type="textureType" name="texture"/>
       <xs:element type="bordertextureType" name="bordertexture"/>
@@ -276,4 +262,27 @@
       <xs:enumeration value="slider" />
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="aspectratioType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="keep"/>
+      <xs:enumeration value="scale"/>
+      <xs:enumeration value="center"/>
+      <xs:enumeration value="stretch"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="alignType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="center" />
+      <xs:enumeration value="right" />
+      <xs:enumeration value="left" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="alignyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="center" />
+      <xs:enumeration value="bottom" />
+      <xs:enumeration value="top" />
+    </xs:restriction>
+  </xs:simpleType>
+  
 </xs:schema>
