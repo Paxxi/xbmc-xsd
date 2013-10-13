@@ -23,7 +23,7 @@
       </xs:element>
       <xs:element type="defaultcontrolType" name="defaultcontrol" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:string" name="allowoverlay" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="xs:string" name="backgroundcolor" maxOccurs="1" minOccurs="0"/>
+      <xs:element type="colorType" name="backgroundcolor" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:string" name="views" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:string" name="visible" maxOccurs="1" minOccurs="0"/>
       <xs:element type="animationType" name="animation" maxOccurs="unbounded" minOccurs="0"/>
@@ -118,7 +118,7 @@
       <xs:element type="xs:string" name="visible"/>
       <xs:element type="xs:string" name="animation"/>
       <xs:element type="xs:string" name="camera"/>
-      <xs:element type="xs:string" name="colordiffuse"/>
+      <xs:element type="colorType" name="colordiffuse"/>
       <xs:element type="xs:string" name="onup"/>
       <xs:element type="xs:string" name="ondown"/>
       <xs:element type="xs:string" name="onleft"/>
@@ -141,8 +141,8 @@
       <xs:element type="xs:string" name="angle"/>
       <xs:element type="xs:string" name="haspath"/>
       <xs:element type="xs:string" name="font"/>
-      <xs:element type="xs:string" name="textcolor"/>
-      <xs:element type="xs:string" name="shadowcolor"/>
+      <xs:element type="colorType" name="textcolor"/>
+      <xs:element type="colorType" name="shadowcolor"/>
       <xs:element type="xs:string" name="wrapmultiline"/>
       <xs:element type="xs:string" name="scrollspeed"/>
       <xs:element type="xs:string" name="scrollsuffix"/>
@@ -170,8 +170,8 @@
       <xs:element type="xs:string" name="loop"/>
       <xs:element type="xs:string" name="texturefocus"/>
       <xs:element type="xs:string" name="texturenofocus"/>
-      <xs:element type="xs:string" name="focusedcolor"/>
-      <xs:element type="xs:string" name="disabledcolor"/>
+      <xs:element type="colorType" name="focusedcolor"/>
+      <xs:element type="colorType" name="disabledcolor"/>
       <xs:element type="xs:string" name="textoffsety"/>
       <xs:element type="xs:string" name="textwidth"/>
       <xs:element type="xs:string" name="onclick"/>
@@ -222,8 +222,8 @@
       <xs:element type="xs:string" name="preloaditems"/>
       <xs:element type="xs:string" name="focusposition"/>
       <xs:element type="xs:string" name="autoscroll"/>
-      <xs:element type="xs:string" name="highlightcolor"/>
-      <xs:element type="xs:string" name="titlecolor"/>
+      <xs:element type="colorType" name="highlightcolor"/>
+      <xs:element type="colorType" name="titlecolor"/>
       <xs:element type="xs:string" name="hinttext"/>
     </xs:choice>
     <xs:attribute type="controlchoiceType" name="type" use="required"/>
@@ -284,5 +284,164 @@
       <xs:enumeration value="top" />
     </xs:restriction>
   </xs:simpleType>
-  
+  <xs:simpleType name="colorType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Color defined as either a name or AARRGGBB value. The list provided are the default names available in XBMC but it`s possible to define others.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="aliceblue" />
+          <xs:enumeration value="antiquewhite" />
+          <xs:enumeration value="aqua" />
+          <xs:enumeration value="aquamarine" />
+          <xs:enumeration value="azure" />
+          <xs:enumeration value="beige" />
+          <xs:enumeration value="bisque" />
+          <xs:enumeration value="black" />
+          <xs:enumeration value="blanchedalmond" />
+          <xs:enumeration value="blue" />
+          <xs:enumeration value="blueviolet" />
+          <xs:enumeration value="brown" />
+          <xs:enumeration value="burlywood" />
+          <xs:enumeration value="cadetblue" />
+          <xs:enumeration value="chartreuse" />
+          <xs:enumeration value="chocolate" />
+          <xs:enumeration value="coral" />
+          <xs:enumeration value="cornflowerblue" />
+          <xs:enumeration value="cornsilk" />
+          <xs:enumeration value="crimson" />
+          <xs:enumeration value="cyan" />
+          <xs:enumeration value="darkblue" />
+          <xs:enumeration value="darkcyan" />
+          <xs:enumeration value="darkgoldenrod" />
+          <xs:enumeration value="darkgray" />
+          <xs:enumeration value="darkgreen" />
+          <xs:enumeration value="darkkhaki" />
+          <xs:enumeration value="darkmagenta" />
+          <xs:enumeration value="darkolivegreen" />
+          <xs:enumeration value="darkorange" />
+          <xs:enumeration value="darkorchid" />
+          <xs:enumeration value="darkred" />
+          <xs:enumeration value="darksalmon" />
+          <xs:enumeration value="darkseagreen" />
+          <xs:enumeration value="darkslateblue" />
+          <xs:enumeration value="darkslategray" />
+          <xs:enumeration value="darkturquoise" />
+          <xs:enumeration value="darkviolet" />
+          <xs:enumeration value="deeppink" />
+          <xs:enumeration value="deepskyblue" />
+          <xs:enumeration value="dimgray" />
+          <xs:enumeration value="dodgerblue" />
+          <xs:enumeration value="firebrick" />
+          <xs:enumeration value="floralwhite" />
+          <xs:enumeration value="forestgreen" />
+          <xs:enumeration value="fuchsia" />
+          <xs:enumeration value="gainsboro" />
+          <xs:enumeration value="ghostwhite" />
+          <xs:enumeration value="gold" />
+          <xs:enumeration value="goldenrod" />
+          <xs:enumeration value="gray" />
+          <xs:enumeration value="green" />
+          <xs:enumeration value="greenyellow" />
+          <xs:enumeration value="honeydew" />
+          <xs:enumeration value="hotpink" />
+          <xs:enumeration value="indianred" />
+          <xs:enumeration value="indigo" />
+          <xs:enumeration value="ivory" />
+          <xs:enumeration value="khaki" />
+          <xs:enumeration value="lavender" />
+          <xs:enumeration value="lavenderblush" />
+          <xs:enumeration value="lawngreen" />
+          <xs:enumeration value="lemonchiffon" />
+          <xs:enumeration value="lightblue" />
+          <xs:enumeration value="lightcoral" />
+          <xs:enumeration value="lightcyan" />
+          <xs:enumeration value="lightgoldenrodyellow" />
+          <xs:enumeration value="lightgrey" />
+          <xs:enumeration value="lightgreen" />
+          <xs:enumeration value="lightpink" />
+          <xs:enumeration value="lightsalmon" />
+          <xs:enumeration value="lightseagreen" />
+          <xs:enumeration value="lightskyblue" />
+          <xs:enumeration value="lightslategray" />
+          <xs:enumeration value="lightsteelblue" />
+          <xs:enumeration value="lightyellow" />
+          <xs:enumeration value="lime" />
+          <xs:enumeration value="limegreen" />
+          <xs:enumeration value="linen" />
+          <xs:enumeration value="magenta" />
+          <xs:enumeration value="maroon" />
+          <xs:enumeration value="mediumaquamarine" />
+          <xs:enumeration value="mediumblue" />
+          <xs:enumeration value="mediumorchid" />
+          <xs:enumeration value="mediumpurple" />
+          <xs:enumeration value="mediumseagreen" />
+          <xs:enumeration value="mediumslateblue" />
+          <xs:enumeration value="mediumspringgreen" />
+          <xs:enumeration value="mediumturquoise" />
+          <xs:enumeration value="mediumvioletred" />
+          <xs:enumeration value="midnightblue" />
+          <xs:enumeration value="mintcream" />
+          <xs:enumeration value="mistyrose" />
+          <xs:enumeration value="moccasin" />
+          <xs:enumeration value="navajowhite" />
+          <xs:enumeration value="navy" />
+          <xs:enumeration value="none" />
+          <xs:enumeration value="oldlace" />
+          <xs:enumeration value="olive" />
+          <xs:enumeration value="olivedrab" />
+          <xs:enumeration value="orange" />
+          <xs:enumeration value="orangered" />
+          <xs:enumeration value="orchid" />
+          <xs:enumeration value="palegoldenrod" />
+          <xs:enumeration value="palegreen" />
+          <xs:enumeration value="paleturquoise" />
+          <xs:enumeration value="palevioletred" />
+          <xs:enumeration value="papayawhip" />
+          <xs:enumeration value="peachpuff" />
+          <xs:enumeration value="peru" />
+          <xs:enumeration value="pink" />
+          <xs:enumeration value="plum" />
+          <xs:enumeration value="powderblue" />
+          <xs:enumeration value="purple" />
+          <xs:enumeration value="red" />
+          <xs:enumeration value="rosybrown" />
+          <xs:enumeration value="royalblue" />
+          <xs:enumeration value="saddlebrown" />
+          <xs:enumeration value="salmon" />
+          <xs:enumeration value="sandybrown" />
+          <xs:enumeration value="seagreen" />
+          <xs:enumeration value="seashell" />
+          <xs:enumeration value="sienna" />
+          <xs:enumeration value="silver" />
+          <xs:enumeration value="skyblue" />
+          <xs:enumeration value="slateblue" />
+          <xs:enumeration value="slategray" />
+          <xs:enumeration value="snow" />
+          <xs:enumeration value="springgreen" />
+          <xs:enumeration value="steelblue" />
+          <xs:enumeration value="tan" />
+          <xs:enumeration value="teal" />
+          <xs:enumeration value="thistle" />
+          <xs:enumeration value="tomato" />
+          <xs:enumeration value="turquoise" />
+          <xs:enumeration value="violet" />
+          <xs:enumeration value="wheat" />
+          <xs:enumeration value="white" />
+          <xs:enumeration value="whitesmoke" />
+          <xs:enumeration value="yellow" />
+          <xs:enumeration value="yellowgreen" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9a-fA-F]{6,8}" />
+          <xs:pattern value="\w+" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
 </xs:schema>
