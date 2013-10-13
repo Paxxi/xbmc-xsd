@@ -24,7 +24,13 @@
       <xs:element type="defaultcontrolType" name="defaultcontrol" maxOccurs="1" minOccurs="0"/>
       <xs:element type="xs:boolean" name="allowoverlay" maxOccurs="1" minOccurs="0"/>
       <xs:element type="colorType" name="backgroundcolor" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="xs:string" name="views" maxOccurs="1" minOccurs="0"/>
+      <xs:element type="xs:string" name="views" maxOccurs="1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            A comma(,) delimited list of view IDs
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element type="xs:string" name="visible" maxOccurs="1" minOccurs="0"/>
       <xs:element type="animationType" name="animation" maxOccurs="unbounded" minOccurs="0"/>
       <xs:element type="xs:string" name="zorder" maxOccurs="1" minOccurs="0"/>
