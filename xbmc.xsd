@@ -1,93 +1,95 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="window" type="windowType"/>
-  <xs:complexType name="windowType">
-    <xs:choice maxOccurs="unbounded" minOccurs="0">
-      <xs:element name="onload" maxOccurs="unbounded" minOccurs="0">
-        <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-              <xs:attribute name="condition" type="xs:string"/>
-            </xs:extension>
-          </xs:simpleContent>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="onunload" maxOccurs="unbounded" minOccurs="0">
-        <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-              <xs:attribute name="condition" type="xs:string"/>
-            </xs:extension>
-          </xs:simpleContent>
-        </xs:complexType>
-      </xs:element>
-      <xs:element type="defaultcontrolType" name="defaultcontrol" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="xs:boolean" name="allowoverlay" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="colorType" name="backgroundcolor" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="xs:string" name="views" maxOccurs="1" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation xml:lang="en">
-            A comma(,) delimited list of view IDs
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="visible" maxOccurs="1" minOccurs="0">
-        <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-              <xs:attribute type="xs:boolean" name="allowhiddenfocus"/>
-            </xs:extension>
-          </xs:simpleContent>
-        </xs:complexType>
-      </xs:element>
-      <xs:element type="animationType" name="animation" maxOccurs="unbounded" minOccurs="0"/>
-      <xs:element type="xs:string" name="zorder" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="coordinatesType" name="coordinates" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="xs:string" name="previouswindow" maxOccurs="1" minOccurs="0"/>
-      <xs:element type="controlsType" name="controls"/>
-    </xs:choice>
-    <xs:attribute type="xs:string" name="type"/>
-  </xs:complexType>
+  <xs:element name="window">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="onload" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="condition" type="xs:string" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="onunload" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="condition" type="xs:string" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="defaultcontrol" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="always" type="xs:boolean" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="allowoverlay" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+        <xs:element name="backgroundcolor" type="colorType" minOccurs="0" maxOccurs="1" />
+        <xs:element name="views" type="xs:string" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              A comma(,) delimited list of view IDs
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="visible" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:attribute name="allowhiddenfocus" type="xs:boolean" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="animation" type="animationType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="zorder" type="xs:string" minOccurs="0" maxOccurs="1" />
+        <xs:element name="coordinates" type="coordinatesType" minOccurs="0" maxOccurs="1" />
+        <xs:element name="previouswindow" type="xs:string" minOccurs="0" maxOccurs="1" />
+        <xs:element name="controls">
+          <xs:complexType>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+              <xs:element name="include" type="xs:string" />
+              <xs:element name="control" type="controlType" />
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+      <xs:attribute name="type" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
   <xs:complexType name="bordertextureType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="border" use="optional"/>
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
-  <xs:complexType name="defaultcontrolType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute type="xs:boolean" name="always"/>
-      </xs:extension>
-    </xs:simpleContent>
+    <xs:attribute name="border" type="xs:string" use="optional" />
+    <xs:attribute name="flipx" type="xs:boolean" use="optional" />
+    <xs:attribute name="flipy" type="xs:boolean" use="optional" />
+    <xs:attribute name="colordiffuse" type="colorType" use="optional" />
+    <xs:attribute name="background" type="xs:boolean" use="optional" />
+    <xs:attribute name="diffuse" type="xs:string" use="optional" />
   </xs:complexType>
   <xs:complexType name="animationType">
-    <xs:choice maxOccurs="unbounded" minOccurs="0">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="effect">
         <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-              <xs:attribute type="animationEffectsType" name="type" />
-              <xs:attribute type="xs:boolean" name="pulse" />
-              <xs:attribute type="xs:boolean" name="loop" />
-              <xs:attribute type="xs:float" name="start" />
-              <xs:attribute type="xs:float" name="end" />
-              <xs:attribute type="xs:float" name="delay" />
-              <xs:attribute type="xs:float" name="time" />
-            </xs:extension>
-          </xs:simpleContent>
+          <xs:attribute name="type" type="animationEffectsType" />
+          <xs:attribute name="pulse" type="xs:boolean" />
+          <xs:attribute name="loop" type="xs:boolean" />
+          <xs:attribute name="start" type="xs:float" />
+          <xs:attribute name="end" type="xs:float" />
+          <xs:attribute name="delay" type="xs:float" />
+          <xs:attribute name="time" type="xs:float" />
         </xs:complexType>
       </xs:element>
     </xs:choice>
-    <xs:attribute type="effectsType" name="type" />
-    <xs:attribute type="xs:string" name="condition" />
-    <xs:attribute type="xs:boolean" name="reversible" />
+    <xs:attribute name="type" type="effectsType" />
+    <xs:attribute name="condition" type="xs:string" />
+    <xs:attribute name="reversible" type="xs:boolean" />
   </xs:complexType>
   <xs:simpleType name="animationEffectsType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="fade"/>
-      <xs:enumeration value="slide"/>
+      <xs:enumeration value="fade" />
+      <xs:enumeration value="slide" />
       <xs:enumeration value="zoom" />
       <xs:enumeration value="rotate" />
       <xs:enumeration value="rotatex" />
@@ -105,158 +107,149 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="textureType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="border" use="optional"/>
-        <xs:attribute type="xs:string" name="flipy" use="optional"/>
-        <xs:attribute type="xs:string" name="flipx" use="optional"/>
-      </xs:extension>
-    </xs:simpleContent>
+    <xs:attribute name="border" type="xs:string" use="optional" />
+    <xs:attribute name="flipy" type="xs:string" use="optional" />
+    <xs:attribute name="flipx" type="xs:string" use="optional" />
   </xs:complexType>
-  <xs:complexType name="controlsType">
-    <xs:choice maxOccurs="unbounded" minOccurs="0">
-      <xs:element type="xs:string" name="include"/>
-      <xs:element type="controlType" name="control"/>
-    </xs:choice>
-  </xs:complexType>
-  <xs:complexType name="controlType" mixed="true">
-    <xs:choice maxOccurs="unbounded" minOccurs="0">
-      <xs:element type="xs:string" name="include"/>
-      <xs:element type="xs:string" name="description"/>
-      <xs:element type="xs:string" name="type"/>
-      <xs:element type="xs:string" name="id"/>
-      <xs:element type="xs:string" name="posx"/>
-      <xs:element type="xs:string" name="posy"/>
-      <xs:element type="xs:string" name="width"/>
-      <xs:element type="xs:string" name="height"/>
-      <xs:element type="xs:string" name="visible"/>
-      <xs:element type="xs:string" name="animation"/>
-      <xs:element type="xs:string" name="camera"/>
-      <xs:element type="colorType" name="colordiffuse"/>
-      <xs:element type="xs:string" name="onup"/>
-      <xs:element type="xs:string" name="ondown"/>
-      <xs:element type="xs:string" name="onleft"/>
-      <xs:element type="xs:string" name="onright"/>
-      <xs:element type="xs:string" name="hitrect"/>
-      <xs:element type="xs:string" name="pulseonselect"/>
-      <xs:element type="xs:string" name="defaultcontrol"/>
-      <xs:element type="controlType" name="control"/>
-      <xs:element type="xs:string" name="itemgap"/>
-      <xs:element type="xs:string" name="orientation"/>
-      <xs:element type="xs:string" name="pagecontrol"/>
-      <xs:element type="xs:string" name="scrolltime"/>
-      <xs:element type="xs:string" name="usecontrolcoords"/>
-      <xs:element type="xs:string" name="align"/>
-      <xs:element type="xs:string" name="aligny"/>
-      <xs:element type="xs:string" name="scroll"/>
-      <xs:element type="xs:string" name="label"/>
-      <xs:element type="xs:string" name="info"/>
-      <xs:element type="xs:string" name="number"/>
-      <xs:element type="xs:string" name="angle"/>
-      <xs:element type="xs:string" name="haspath"/>
-      <xs:element type="xs:string" name="font"/>
-      <xs:element type="colorType" name="textcolor"/>
-      <xs:element type="colorType" name="shadowcolor"/>
-      <xs:element type="xs:string" name="wrapmultiline"/>
-      <xs:element type="xs:string" name="scrollspeed"/>
-      <xs:element type="xs:string" name="scrollsuffix"/>
-      <xs:element type="xs:string" name="textoffsetx"/>
-      <xs:element type="xs:string" name="scrollout"/>
-      <xs:element type="xs:string" name="pauseatend"/>
-      <xs:element type="xs:string" name="resetonlabelchange"/>
-      <xs:element name="aspectratio">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="aspectratioType">
-                <xs:attribute name="align" type="alignType" />
-                <xs:attribute name="aligny" type="alignyType" />
-                <xs:attribute name="scalediffuse" type="xs:boolean" />
-             </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
-      </xs:element>
-      <xs:element type="textureType" name="texture"/>
-      <xs:element type="bordertextureType" name="bordertexture"/>
-      <xs:element type="xs:string" name="bordersize"/>
-      <xs:element type="xs:string" name="fadetime"/>
-      <xs:element type="xs:string" name="imagepath"/>
-      <xs:element type="xs:string" name="timeperimage"/>
-      <xs:element type="xs:string" name="loop"/>
-      <xs:element type="xs:string" name="texturefocus"/>
-      <xs:element type="xs:string" name="texturenofocus"/>
-      <xs:element type="colorType" name="focusedcolor"/>
-      <xs:element type="colorType" name="disabledcolor"/>
-      <xs:element type="xs:string" name="textoffsety"/>
-      <xs:element type="xs:string" name="textwidth"/>
-      <xs:element type="xs:string" name="onclick"/>
-      <xs:element type="xs:string" name="onfocus"/>
-      <xs:element type="xs:string" name="onunfocus"/>
-      <xs:element type="xs:string" name="onback"/>
-      <xs:element type="xs:string" name="textureradioon"/>
-      <xs:element type="xs:string" name="textureradiooff"/>
-      <xs:element type="xs:string" name="selected"/>
-      <xs:element type="xs:string" name="radioposx"/>
-      <xs:element type="xs:string" name="radioposy"/>
-      <xs:element type="xs:string" name="radiowidth"/>
-      <xs:element type="xs:string" name="radioheight"/>
-      <xs:element type="xs:string" name="texturebg"/>
-      <xs:element type="xs:string" name="textureleft"/>
-      <xs:element type="xs:string" name="textureleftfocus"/>
-      <xs:element type="xs:string" name="textureright"/>
-      <xs:element type="xs:string" name="texturerightfocus"/>
-      <xs:element type="xs:string" name="alttexturefocus"/>
-      <xs:element type="xs:string" name="alttexturenofocus"/>
-      <xs:element type="xs:string" name="usealttexture"/>
-      <xs:element type="xs:string" name="textureup"/>
-      <xs:element type="xs:string" name="textureupfocus"/>
-      <xs:element type="xs:string" name="texturedown"/>
-      <xs:element type="xs:string" name="texturedownfocus"/>
-      <xs:element type="xs:string" name="subtype"/>
-      <xs:element type="xs:string" name="texturesliderbar"/>
-      <xs:element type="xs:string" name="textureslidernib"/>
-      <xs:element type="xs:string" name="textureslidernibfocus"/>
-      <xs:element type="xs:string" name="controloffsetx"/>
-      <xs:element type="xs:string" name="controloffsety"/>
-      <xs:element type="xs:string" name="action"/>
-      <xs:element type="xs:string" name="texturesliderbackground"/>
-      <xs:element type="xs:string" name="texturesliderbarfocus"/>
-      <xs:element type="xs:string" name="texturesliderbarnib"/>
-      <xs:element type="xs:string" name="texturesliderbarnibfocus"/>
-      <xs:element type="xs:string" name="showonepage"/>
-      <xs:element type="xs:string" name="sliderwidth"/>
-      <xs:element type="xs:string" name="sliderheight"/>
-      <xs:element type="xs:string" name="reveal"/>
-      <xs:element type="xs:string" name="lefttexture"/>
-      <xs:element type="xs:string" name="righttexture"/>
-      <xs:element type="xs:string" name="overlaytexture"/>
-      <xs:element type="xs:string" name="viewtype"/>
-      <xs:element type="xs:string" name="itemlayout"/>
-      <xs:element type="xs:string" name="focusedlayout"/>
-      <xs:element type="xs:string" name="content"/>
-      <xs:element type="xs:string" name="preloaditems"/>
-      <xs:element type="xs:string" name="focusposition"/>
-      <xs:element type="xs:string" name="autoscroll"/>
-      <xs:element type="colorType" name="highlightcolor"/>
-      <xs:element type="colorType" name="titlecolor"/>
-      <xs:element type="xs:string" name="hinttext"/>
-    </xs:choice>
-    <xs:attribute type="controlchoiceType" name="type" use="required"/>
-    <xs:attribute type="xs:string" name="id" use="optional"/>
-  </xs:complexType>
+  
   <xs:complexType name="coordinatesType">
     <xs:sequence>
-      <xs:element type="xs:string" name="posx"/>
-      <xs:element type="xs:string" name="posy"/>
-      <xs:element type="originType" name="origin"/>
+      <xs:element name="posx" type="xs:string" />
+      <xs:element name="posy" type="xs:string" />
+      <xs:element name="origin" type="originType" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="originType">
     <xs:simpleContent>
       <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="x"/>
-        <xs:attribute type="xs:string" name="y"/>
+        <xs:attribute name="x" type="xs:string" />
+        <xs:attribute name="y" type="xs:string" />
       </xs:extension>
     </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="controlType" mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="include" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="type" type="xs:string" />
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="posx" type="xs:string" />
+      <xs:element name="posy" type="xs:string" />
+      <xs:element name="width" type="xs:string" />
+      <xs:element name="height" type="xs:string" />
+      <xs:element name="visible" type="xs:string" />
+      <xs:element name="animation" type="xs:string" />
+      <xs:element name="camera" type="xs:string" />
+      <xs:element name="colordiffuse" type="colorType" />
+      <xs:element name="onup" type="xs:string" />
+      <xs:element name="ondown" type="xs:string" />
+      <xs:element name="onleft" type="xs:string" />
+      <xs:element name="onright" type="xs:string" />
+      <xs:element name="hitrect" type="xs:string" />
+      <xs:element name="pulseonselect" type="xs:string" />
+      <xs:element name="defaultcontrol" type="xs:string" />
+      <xs:element name="control" type="controlType" />
+      <xs:element name="itemgap" type="xs:string" />
+      <xs:element name="orientation" type="xs:string" />
+      <xs:element name="pagecontrol" type="xs:string" />
+      <xs:element name="scrolltime" type="xs:string" />
+      <xs:element name="usecontrolcoords" type="xs:string" />
+      <xs:element name="align" type="xs:string" />
+      <xs:element name="aligny" type="xs:string" />
+      <xs:element name="scroll" type="xs:string" />
+      <xs:element name="label" type="xs:string" />
+      <xs:element name="info" type="xs:string" />
+      <xs:element name="number" type="xs:string" />
+      <xs:element name="angle" type="xs:string" />
+      <xs:element name="haspath" type="xs:string" />
+      <xs:element name="font" type="xs:string" />
+      <xs:element name="textcolor" type="colorType" />
+      <xs:element name="shadowcolor" type="colorType" />
+      <xs:element name="wrapmultiline" type="xs:string" />
+      <xs:element name="scrollspeed" type="xs:string" />
+      <xs:element name="scrollsuffix" type="xs:string" />
+      <xs:element name="textoffsetx" type="xs:string" />
+      <xs:element name="scrollout" type="xs:string" />
+      <xs:element name="pauseatend" type="xs:string" />
+      <xs:element name="resetonlabelchange" type="xs:string" />
+      <xs:element name="aspectratio">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="aspectratioType">
+              <xs:attribute name="align" type="alignType" />
+              <xs:attribute name="aligny" type="alignyType" />
+              <xs:attribute name="scalediffuse" type="xs:boolean" />
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="texture" type="textureType" />
+      <xs:element name="bordertexture" type="bordertextureType" />
+      <xs:element name="bordersize" type="xs:string" />
+      <xs:element name="fadetime" type="xs:string" />
+      <xs:element name="imagepath" type="xs:string" />
+      <xs:element name="timeperimage" type="xs:string" />
+      <xs:element name="loop" type="xs:string" />
+      <xs:element name="texturefocus" type="xs:string" />
+      <xs:element name="texturenofocus" type="xs:string" />
+      <xs:element name="focusedcolor" type="colorType" />
+      <xs:element name="disabledcolor" type="colorType" />
+      <xs:element name="textoffsety" type="xs:string" />
+      <xs:element name="textwidth" type="xs:string" />
+      <xs:element name="onclick" type="xs:string" />
+      <xs:element name="onfocus" type="xs:string" />
+      <xs:element name="onunfocus" type="xs:string" />
+      <xs:element name="onback" type="xs:string" />
+      <xs:element name="textureradioon" type="xs:string" />
+      <xs:element name="textureradiooff" type="xs:string" />
+      <xs:element name="selected" type="xs:string" />
+      <xs:element name="radioposx" type="xs:string" />
+      <xs:element name="radioposy" type="xs:string" />
+      <xs:element name="radiowidth" type="xs:string" />
+      <xs:element name="radioheight" type="xs:string" />
+      <xs:element name="texturebg" type="xs:string" />
+      <xs:element name="textureleft" type="xs:string" />
+      <xs:element name="textureleftfocus" type="xs:string" />
+      <xs:element name="textureright" type="xs:string" />
+      <xs:element name="texturerightfocus" type="xs:string" />
+      <xs:element name="alttexturefocus" type="xs:string" />
+      <xs:element name="alttexturenofocus" type="xs:string" />
+      <xs:element name="usealttexture" type="xs:string" />
+      <xs:element name="textureup" type="xs:string" />
+      <xs:element name="textureupfocus" type="xs:string" />
+      <xs:element name="texturedown" type="xs:string" />
+      <xs:element name="texturedownfocus" type="xs:string" />
+      <xs:element name="subtype" type="xs:string" />
+      <xs:element name="texturesliderbar" type="xs:string" />
+      <xs:element name="textureslidernib" type="xs:string" />
+      <xs:element name="textureslidernibfocus" type="xs:string" />
+      <xs:element name="controloffsetx" type="xs:string" />
+      <xs:element name="controloffsety" type="xs:string" />
+      <xs:element name="action" type="xs:string" />
+      <xs:element name="texturesliderbackground" type="xs:string" />
+      <xs:element name="texturesliderbarfocus" type="xs:string" />
+      <xs:element name="texturesliderbarnib" type="xs:string" />
+      <xs:element name="texturesliderbarnibfocus" type="xs:string" />
+      <xs:element name="showonepage" type="xs:string" />
+      <xs:element name="sliderwidth" type="xs:string" />
+      <xs:element name="sliderheight" type="xs:string" />
+      <xs:element name="reveal" type="xs:string" />
+      <xs:element name="lefttexture" type="xs:string" />
+      <xs:element name="righttexture" type="xs:string" />
+      <xs:element name="overlaytexture" type="xs:string" />
+      <xs:element name="viewtype" type="xs:string" />
+      <xs:element name="itemlayout" type="xs:string" />
+      <xs:element name="focusedlayout" type="xs:string" />
+      <xs:element name="content" type="xs:string" />
+      <xs:element name="preloaditems" type="xs:string" />
+      <xs:element name="focusposition" type="xs:string" />
+      <xs:element name="autoscroll" type="xs:string" />
+      <xs:element name="highlightcolor" type="colorType" />
+      <xs:element name="titlecolor" type="colorType" />
+      <xs:element name="hinttext" type="xs:string" />
+    </xs:choice>
+    <xs:attribute name="type" type="controlchoiceType" use="required" />
+    <xs:attribute name="id" type="xs:string" use="optional" />
   </xs:complexType>
   <xs:simpleType name="controlchoiceType">
     <xs:restriction base="xs:string">
@@ -278,10 +271,10 @@
   </xs:simpleType>
   <xs:simpleType name="aspectratioType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="keep"/>
-      <xs:enumeration value="scale"/>
-      <xs:enumeration value="center"/>
-      <xs:enumeration value="stretch"/>
+      <xs:enumeration value="keep" />
+      <xs:enumeration value="scale" />
+      <xs:enumeration value="center" />
+      <xs:enumeration value="stretch" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="alignType">
