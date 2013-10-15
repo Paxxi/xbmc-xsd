@@ -48,6 +48,7 @@
         <xs:element name="zorder" type="xs:string" minOccurs="0" maxOccurs="1" />
         <xs:element name="coordinates" type="coordinatesType" minOccurs="0" maxOccurs="1" />
         <xs:element name="previouswindow" type="xs:string" minOccurs="0" maxOccurs="1" />
+        <xs:element name="include" type="xs:string" />
         <xs:element name="controls">
           <xs:complexType>
             <xs:choice maxOccurs="unbounded" minOccurs="0">
@@ -60,14 +61,7 @@
       <xs:attribute name="type" type="xs:string" />
     </xs:complexType>
   </xs:element>
-  <xs:complexType name="bordertextureType">
-    <xs:attribute name="border" type="xs:string" use="optional" />
-    <xs:attribute name="flipx" type="xs:boolean" use="optional" />
-    <xs:attribute name="flipy" type="xs:boolean" use="optional" />
-    <xs:attribute name="colordiffuse" type="colorType" use="optional" />
-    <xs:attribute name="background" type="xs:boolean" use="optional" />
-    <xs:attribute name="diffuse" type="xs:string" use="optional" />
-  </xs:complexType>
+ 
   <xs:complexType name="animationType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="effect">
@@ -107,9 +101,22 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="textureType">
-    <xs:attribute name="border" type="xs:string" use="optional" />
-    <xs:attribute name="flipy" type="xs:string" use="optional" />
-    <xs:attribute name="flipx" type="xs:string" use="optional" />
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+            <xs:attribute name="border" type="xs:string"/>
+            <xs:attribute name="flipy" type="xs:boolean"/>
+            <xs:attribute name="flipx" type="xs:boolean"/>
+        </xs:extension>
+      </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="bordertextureType">
+    <xs:simpleContent>
+      <xs:extension base="textureType">
+        <xs:attribute name="colordiffuse" type="colorType" use="optional" />
+        <xs:attribute name="background" type="xs:boolean" use="optional" />
+        <xs:attribute name="diffuse" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
   
   <xs:complexType name="coordinatesType">
