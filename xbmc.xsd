@@ -106,17 +106,11 @@
             <xs:attribute name="border" type="xs:string"/>
             <xs:attribute name="flipy" type="xs:boolean"/>
             <xs:attribute name="flipx" type="xs:boolean"/>
+            <xs:attribute name="colordiffuse" type="colorType" use="optional" />
+            <xs:attribute name="background" type="xs:boolean" use="optional" />
+            <xs:attribute name="diffuse" type="xs:string" use="optional" />
         </xs:extension>
       </xs:simpleContent>
-  </xs:complexType>
-  <xs:complexType name="bordertextureType">
-    <xs:simpleContent>
-      <xs:extension base="textureType">
-        <xs:attribute name="colordiffuse" type="colorType" use="optional" />
-        <xs:attribute name="background" type="xs:boolean" use="optional" />
-        <xs:attribute name="diffuse" type="xs:string" use="optional" />
-      </xs:extension>
-    </xs:simpleContent>
   </xs:complexType>
   
   <xs:complexType name="coordinatesType">
@@ -191,14 +185,14 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="texture" type="textureType" />
-      <xs:element name="bordertexture" type="bordertextureType" />
+      <xs:element name="bordertexture" type="textureType" />
       <xs:element name="bordersize" type="xs:string" />
       <xs:element name="fadetime" type="xs:string" />
       <xs:element name="imagepath" type="xs:string" />
       <xs:element name="timeperimage" type="xs:string" />
       <xs:element name="loop" type="xs:string" />
-      <xs:element name="texturefocus" type="xs:string" />
-      <xs:element name="texturenofocus" type="xs:string" />
+      <xs:element name="texturefocus" type="textureType" />
+      <xs:element name="texturenofocus" type="textureType" />
       <xs:element name="focusedcolor" type="colorType" />
       <xs:element name="disabledcolor" type="colorType" />
       <xs:element name="textoffsety" type="xs:string" />
@@ -207,43 +201,43 @@
       <xs:element name="onfocus" type="xs:string" />
       <xs:element name="onunfocus" type="xs:string" />
       <xs:element name="onback" type="xs:string" />
-      <xs:element name="textureradioon" type="xs:string" />
-      <xs:element name="textureradiooff" type="xs:string" />
+      <xs:element name="textureradioon" type="textureType" />
+      <xs:element name="textureradiooff" type="textureType" />
       <xs:element name="selected" type="xs:string" />
       <xs:element name="radioposx" type="xs:string" />
       <xs:element name="radioposy" type="xs:string" />
       <xs:element name="radiowidth" type="xs:string" />
       <xs:element name="radioheight" type="xs:string" />
-      <xs:element name="texturebg" type="xs:string" />
-      <xs:element name="textureleft" type="xs:string" />
-      <xs:element name="textureleftfocus" type="xs:string" />
-      <xs:element name="textureright" type="xs:string" />
-      <xs:element name="texturerightfocus" type="xs:string" />
-      <xs:element name="alttexturefocus" type="xs:string" />
-      <xs:element name="alttexturenofocus" type="xs:string" />
-      <xs:element name="usealttexture" type="xs:string" />
-      <xs:element name="textureup" type="xs:string" />
-      <xs:element name="textureupfocus" type="xs:string" />
-      <xs:element name="texturedown" type="xs:string" />
-      <xs:element name="texturedownfocus" type="xs:string" />
+      <xs:element name="texturebg" type="textureType" />
+      <xs:element name="textureleft" type="textureType" />
+      <xs:element name="textureleftfocus" type="textureType" />
+      <xs:element name="textureright" type="textureType" />
+      <xs:element name="texturerightfocus" type="textureType" />
+      <xs:element name="alttexturefocus" type="textureType" />
+      <xs:element name="alttexturenofocus" type="textureType" />
+      <xs:element name="usealttexture" type="textureType" />
+      <xs:element name="textureup" type="textureType" />
+      <xs:element name="textureupfocus" type="textureType" />
+      <xs:element name="texturedown" type="textureType" />
+      <xs:element name="texturedownfocus" type="textureType" />
       <xs:element name="subtype" type="xs:string" />
-      <xs:element name="texturesliderbar" type="xs:string" />
-      <xs:element name="textureslidernib" type="xs:string" />
-      <xs:element name="textureslidernibfocus" type="xs:string" />
+      <xs:element name="texturesliderbar" type="textureType" />
+      <xs:element name="textureslidernib" type="textureType" />
+      <xs:element name="textureslidernibfocus" type="textureType" />
       <xs:element name="controloffsetx" type="xs:string" />
       <xs:element name="controloffsety" type="xs:string" />
       <xs:element name="action" type="xs:string" />
-      <xs:element name="texturesliderbackground" type="xs:string" />
-      <xs:element name="texturesliderbarfocus" type="xs:string" />
-      <xs:element name="texturesliderbarnib" type="xs:string" />
-      <xs:element name="texturesliderbarnibfocus" type="xs:string" />
+      <xs:element name="texturesliderbackground" type="textureType" />
+      <xs:element name="texturesliderbarfocus" type="textureType" />
+      <xs:element name="texturesliderbarnib" type="textureType" />
+      <xs:element name="texturesliderbarnibfocus" type="textureType" />
       <xs:element name="showonepage" type="xs:string" />
       <xs:element name="sliderwidth" type="xs:string" />
       <xs:element name="sliderheight" type="xs:string" />
       <xs:element name="reveal" type="xs:string" />
-      <xs:element name="lefttexture" type="xs:string" />
-      <xs:element name="righttexture" type="xs:string" />
-      <xs:element name="overlaytexture" type="xs:string" />
+      <xs:element name="lefttexture" type="textureType" />
+      <xs:element name="righttexture" type="textureType" />
+      <xs:element name="overlaytexture" type="textureType" />
       <xs:element name="viewtype" type="xs:string" />
       <xs:element name="itemlayout" type="xs:string" />
       <xs:element name="focusedlayout" type="xs:string" />
@@ -256,7 +250,7 @@
       <xs:element name="hinttext" type="xs:string" />
     </xs:choice>
     <xs:attribute name="type" type="controlchoiceType" use="required" />
-    <xs:attribute name="id" type="xs:string" use="optional" />
+    <xs:attribute name="id" type="xs:integer" />
   </xs:complexType>
   <xs:simpleType name="controlchoiceType">
     <xs:restriction base="xs:string">
