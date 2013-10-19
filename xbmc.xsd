@@ -41,6 +41,7 @@
                 <xs:alternative test="@type='textbox'" type="controlTypeTextbox"/>
                 <xs:alternative test="@type='progress'" type="controlTypeProgress"/>
                 <xs:alternative test="@type='button'" type="controlTypeButton"/>
+                <xs:alternative test="@type='checkmark'" type="controlTypeCheckmark"/>
               </xs:element>
             </xs:choice>
           </xs:complexType>
@@ -455,6 +456,20 @@
           <xs:element name="onclick" type="actionType"/>
           <xs:element name="onfocus" type="actionType"/>
           <xs:element name="onunfocus" type="actionType"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeCheckmark" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texturecheckmark" type="textureType"/>
+          <xs:element name="texturecheckmarknofocus" type="textureType"/>
+          <xs:element name="markwidth" type="xs:float"/>
+          <xs:element name="markheight" type="xs:float"/>
+          <xs:element name="label" type="xs:string"/>
         </xs:choice>
       </xs:extension>
     </xs:complexContent>
