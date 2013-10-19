@@ -1,35 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"  version="v1.1">
   <xs:element name="window">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded">
-        <xs:element name="onload" minOccurs="0" maxOccurs="unbounded">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="xs:string">
-                <xs:attribute name="condition" type="xs:string" />
-              </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="onunload" minOccurs="0" maxOccurs="unbounded">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="xs:string">
-                <xs:attribute name="condition" type="xs:string" />
-              </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="defaultcontrol" minOccurs="0" maxOccurs="1">
-          <xs:complexType>
-            <xs:simpleContent>
-              <xs:extension base="xs:string">
-                <xs:attribute name="always" type="xs:boolean" />
-              </xs:extension>
-            </xs:simpleContent>
-          </xs:complexType>
-        </xs:element>
+        <xs:element name="onload" type="actionType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="onunload" type="actionType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="defaultcontrol" type="defaultControlType" minOccurs="0" maxOccurs="1" />
         <xs:element name="allowoverlay" type="xs:boolean" minOccurs="0" maxOccurs="1" />
         <xs:element name="backgroundcolor" type="colorType" minOccurs="0" maxOccurs="1" />
         <xs:element name="views" type="xs:string" minOccurs="0" maxOccurs="1">
@@ -53,7 +29,13 @@
           <xs:complexType>
             <xs:choice maxOccurs="unbounded" minOccurs="0">
               <xs:element name="include" type="xs:string" />
-              <xs:element name="control" type="controlType" />
+              <xs:element name="control">
+                <xs:alternative test="@type='image'" type="controlTypeImage" />
+                <xs:alternative test="@type='label'" type="controlTypeLabel" />
+                <xs:alternative test="@type='spin'" type="controlTypeSpin" />
+                <xs:alternative test="@type='edit'" type="controlTypeEdit" />
+                <xs:alternative test="@type='list'" type="controlTypeList" />
+              </xs:element>
             </xs:choice>
           </xs:complexType>
         </xs:element>
@@ -61,6 +43,36 @@
       <xs:attribute name="type" type="xs:string" />
     </xs:complexType>
   </xs:element>
+  
+  <xs:complexType name="actionType" mixed="true">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="condition" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:simpleType name="viewtypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="list" />
+      <xs:enumeration value="biglist" />
+      <xs:enumeration value="icon" />
+      <xs:enumeration value="bigicon" />
+      <xs:enumeration value="wide" />
+      <xs:enumeration value="bigwide" />
+      <xs:enumeration value="wrap"/>
+      <xs:enumeration value="bigwrap"/>
+      <xs:enumeration value="info"/>
+      <xs:enumeration value="biginfo"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="defaultControlType">
+    <xs:simpleContent>
+      <xs:extension base="xs:int">
+        <xs:attribute name="always" type="xs:boolean" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
  
   <xs:complexType name="animationType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -151,22 +163,21 @@
       <xs:element name="defaultcontrol" type="xs:string" />
       <xs:element name="control" type="controlType" />
       <xs:element name="itemgap" type="xs:string" />
-      <xs:element name="orientation" type="xs:string" />
-      <xs:element name="pagecontrol" type="xs:string" />
-      <xs:element name="scrolltime" type="xs:string" />
+      
+      
       <xs:element name="usecontrolcoords" type="xs:string" />
       <xs:element name="align" type="xs:string" />
       <xs:element name="aligny" type="xs:string" />
-      <xs:element name="scroll" type="xs:string" />
-      <xs:element name="label" type="xs:string" />
+      
+      
       <xs:element name="info" type="xs:string" />
       <xs:element name="number" type="xs:string" />
       <xs:element name="angle" type="xs:string" />
-      <xs:element name="haspath" type="xs:string" />
+      
       <xs:element name="font" type="xs:string" />
       <xs:element name="textcolor" type="colorType" />
       <xs:element name="shadowcolor" type="colorType" />
-      <xs:element name="wrapmultiline" type="xs:string" />
+      
       <xs:element name="scrollspeed" type="xs:string" />
       <xs:element name="scrollsuffix" type="xs:string" />
       <xs:element name="textoffsetx" type="xs:string" />
@@ -184,15 +195,12 @@
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="texture" type="textureType" />
-      <xs:element name="bordertexture" type="textureType" />
-      <xs:element name="bordersize" type="xs:string" />
-      <xs:element name="fadetime" type="xs:string" />
+      
+      
       <xs:element name="imagepath" type="xs:string" />
       <xs:element name="timeperimage" type="xs:string" />
       <xs:element name="loop" type="xs:string" />
-      <xs:element name="texturefocus" type="textureType" />
-      <xs:element name="texturenofocus" type="textureType" />
+      
       <xs:element name="focusedcolor" type="colorType" />
       <xs:element name="disabledcolor" type="colorType" />
       <xs:element name="textoffsety" type="xs:string" />
@@ -216,11 +224,8 @@
       <xs:element name="alttexturefocus" type="textureType" />
       <xs:element name="alttexturenofocus" type="textureType" />
       <xs:element name="usealttexture" type="textureType" />
-      <xs:element name="textureup" type="textureType" />
-      <xs:element name="textureupfocus" type="textureType" />
-      <xs:element name="texturedown" type="textureType" />
-      <xs:element name="texturedownfocus" type="textureType" />
-      <xs:element name="subtype" type="xs:string" />
+      
+      
       <xs:element name="texturesliderbar" type="textureType" />
       <xs:element name="textureslidernib" type="textureType" />
       <xs:element name="textureslidernibfocus" type="textureType" />
@@ -231,7 +236,7 @@
       <xs:element name="texturesliderbarfocus" type="textureType" />
       <xs:element name="texturesliderbarnib" type="textureType" />
       <xs:element name="texturesliderbarnibfocus" type="textureType" />
-      <xs:element name="showonepage" type="xs:string" />
+      
       <xs:element name="sliderwidth" type="xs:string" />
       <xs:element name="sliderheight" type="xs:string" />
       <xs:element name="reveal" type="xs:string" />
@@ -239,19 +244,114 @@
       <xs:element name="righttexture" type="textureType" />
       <xs:element name="overlaytexture" type="textureType" />
       <xs:element name="viewtype" type="xs:string" />
-      <xs:element name="itemlayout" type="xs:string" />
-      <xs:element name="focusedlayout" type="xs:string" />
-      <xs:element name="content" type="xs:string" />
-      <xs:element name="preloaditems" type="xs:string" />
+
       <xs:element name="focusposition" type="xs:string" />
       <xs:element name="autoscroll" type="xs:string" />
       <xs:element name="highlightcolor" type="colorType" />
       <xs:element name="titlecolor" type="colorType" />
-      <xs:element name="hinttext" type="xs:string" />
+      
     </xs:choice>
     <xs:attribute name="type" type="controlchoiceType" use="required" />
     <xs:attribute name="id" type="xs:integer" />
   </xs:complexType>
+  <xs:complexType name="controlTypeImage" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texture" type="textureType" />
+          <xs:element name="bordertexture" type="textureType" />
+          <xs:element name="bordersize" type="xs:string" />
+          <xs:element name="fadetime" type="xs:string" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeLabel" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="wrapmultiline" type="xs:boolean" />
+          <xs:element name="haspath" type="xs:boolean" />
+          <xs:element name="scroll" type="xs:boolean" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeSpin" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="showonepage" type="xs:boolean" />
+          <xs:element name="textureup" type="textureType" />
+          <xs:element name="textureupfocus" type="textureType" />
+          <xs:element name="texturedown" type="textureType" />
+          <xs:element name="texturedownfocus" type="textureType" />
+          <xs:element name="subtype" type="spinControlSubType" default="text" />
+          <xs:element name="reverse" type="xs:boolean" />
+          <xs:element name="range" type="xs:string" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeEdit" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texturefocus" type="textureType" />
+          <xs:element name="texturenofocus" type="textureType" />
+          <xs:element name="password" type="xs:boolean" />
+          <xs:element name="label" type="xs:string" />
+          <xs:element name="ontextchange" type="actionType" />
+          <xs:element name="hinttext" type="xs:string" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeList" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="scrolltime" type="xs:string" />
+          <xs:element name="preloaditems" type="xs:string" />
+          <xs:element name="itemlayout" type="xs:string" />
+          <xs:element name="focusedlayout" type="xs:string" />
+          <xs:element name="orientation" type="xs:string" />
+          <xs:element name="pagecontrol" type="xs:string" />
+          <xs:element name="content">
+            <xs:complexType>
+              <xs:choice maxOccurs="unbounded" minOccurs="1">
+                <xs:element name="item" type="controlTypeListItem" />
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="viewtype">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="viewtypeType">
+                  <xs:attribute name="label" type="xs:string" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeListItem" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <!-- placeholder type -->
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <xs:simpleType name="controlchoiceType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="image" />
@@ -268,6 +368,15 @@
       <xs:enumeration value="grouplist" />
       <xs:enumeration value="radiobutton" />
       <xs:enumeration value="slider" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="spinControlSubType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="int" />
+      <xs:enumeration value="page" />
+      <xs:enumeration value="float" />
+      <xs:enumeration value="text" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="aspectratioType">
