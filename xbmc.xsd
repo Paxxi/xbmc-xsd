@@ -40,6 +40,7 @@
                 <xs:alternative test="@type='fadelabel'" type="controlTypeFadeLabel"/>
                 <xs:alternative test="@type='textbox'" type="controlTypeTextbox"/>
                 <xs:alternative test="@type='progress'" type="controlTypeProgress"/>
+                <xs:alternative test="@type='button'" type="controlTypeButton"/>
               </xs:element>
             </xs:choice>
           </xs:complexType>
@@ -207,7 +208,7 @@
       <xs:element name="onright" type="xs:string" />
       <xs:element name="hitrect" type="xs:string" />
       <xs:element name="pulseonselect" type="xs:string" />
-      <xs:element name="defaultcontrol" type="xs:string" />
+      <xs:element name="defaultcontrol" type="defaultControlType" />
       <xs:element name="control" type="controlType" />
       <xs:element name="itemgap" type="xs:string" />
       
@@ -248,9 +249,6 @@
       <xs:element name="disabledcolor" type="colorType" />
       <xs:element name="textoffsety" type="xs:string" />
       <xs:element name="textwidth" type="xs:string" />
-      <xs:element name="onclick" type="xs:string" />
-      <xs:element name="onfocus" type="xs:string" />
-      <xs:element name="onunfocus" type="xs:string" />
       <xs:element name="onback" type="xs:string" />
       <xs:element name="textureradioon" type="textureType" />
       <xs:element name="textureradiooff" type="textureType" />
@@ -259,7 +257,6 @@
       <xs:element name="radioposy" type="xs:string" />
       <xs:element name="radiowidth" type="xs:string" />
       <xs:element name="radioheight" type="xs:string" />
-      <xs:element name="texturebg" type="textureType" />
       <xs:element name="textureleft" type="textureType" />
       <xs:element name="textureleftfocus" type="textureType" />
       <xs:element name="textureright" type="textureType" />
@@ -442,6 +439,22 @@
           <xs:element name="righttexture" type="textureType"/>
           <xs:element name="overlaytexture" type="textureType"/>
           <xs:element name="info" type="xs:string"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeButton" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texturefocus" type="textureType"/>
+          <xs:element name="texturenofocus" type="textureType"/>
+          <xs:element name="label" type="xs:string"/>
+          <xs:element name="label2" type="xs:string"/>
+          <xs:element name="onclick" type="actionType"/>
+          <xs:element name="onfocus" type="actionType"/>
+          <xs:element name="onunfocus" type="actionType"/>
         </xs:choice>
       </xs:extension>
     </xs:complexContent>
