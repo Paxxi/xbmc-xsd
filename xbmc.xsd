@@ -35,6 +35,9 @@
                 <xs:alternative test="@type='spin'" type="controlTypeSpin" />
                 <xs:alternative test="@type='edit'" type="controlTypeEdit" />
                 <xs:alternative test="@type='list'" type="controlTypeList" />
+                <xs:alternative test="@type='wraplist'" type="controlTypeWrapList"/>
+                <xs:alternative test="@type='fixedlist'" type="controlTypeFixedList"/>
+                <xs:alternative test="@type='fadelabel'" type="controlTypeFadeLabel"/>
               </xs:element>
             </xs:choice>
           </xs:complexType>
@@ -181,9 +184,6 @@
       <xs:element name="scrollspeed" type="xs:string" />
       <xs:element name="scrollsuffix" type="xs:string" />
       <xs:element name="textoffsetx" type="xs:string" />
-      <xs:element name="scrollout" type="xs:string" />
-      <xs:element name="pauseatend" type="xs:string" />
-      <xs:element name="resetonlabelchange" type="xs:string" />
       <xs:element name="aspectratio">
         <xs:complexType>
           <xs:simpleContent>
@@ -243,9 +243,6 @@
       <xs:element name="lefttexture" type="textureType" />
       <xs:element name="righttexture" type="textureType" />
       <xs:element name="overlaytexture" type="textureType" />
-      <xs:element name="viewtype" type="xs:string" />
-
-      <xs:element name="focusposition" type="xs:string" />
       <xs:element name="autoscroll" type="xs:string" />
       <xs:element name="highlightcolor" type="colorType" />
       <xs:element name="titlecolor" type="colorType" />
@@ -342,11 +339,43 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:complexType name="controlTypeWrapList" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlTypeList">
+        <xs:choice>
+          <xs:element name="focusposition" type="xs:int"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeFixedList" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlTypeWrapList">
+        <xs:choice>
+          <xs:element name="movement" type="xs:int"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <xs:complexType name="controlTypeListItem" mixed="true">
     <xs:complexContent>
       <xs:extension base="controlType">
         <xs:choice maxOccurs="unbounded">
           <!-- placeholder type -->
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeFadeLabel" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="scrollout" type="xs:boolean" default="true"/>
+          <xs:element name="pauseatend" type="xs:unsignedInt" default="0"/>
+          <xs:element name="resetonlabelchange" type="xs:boolean" default="true"/>
         </xs:choice>
       </xs:extension>
     </xs:complexContent>
@@ -359,6 +388,8 @@
       <xs:enumeration value="spin" />
       <xs:enumeration value="edit" />
       <xs:enumeration value="list" />
+      <xs:enumeration value="wraplist"/>
+      <xs:enumeration value="fixedlist"/>
       <xs:enumeration value="fadelabel" />
       <xs:enumeration value="textbox" />
       <xs:enumeration value="progress" />
