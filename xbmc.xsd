@@ -69,10 +69,52 @@
       <xs:enumeration value="biginfo"/>
     </xs:restriction>
   </xs:simpleType>
+  
   <xs:complexType name="defaultControlType">
     <xs:simpleContent>
       <xs:extension base="xs:int">
         <xs:attribute name="always" type="xs:boolean" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:simpleType name="tweenType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="linear"/>
+      <xs:enumeration value="quadratic"/>
+      <xs:enumeration value="cubic"/>
+      <xs:enumeration value="sine"/>
+      <xs:enumeration value="back"/>
+      <xs:enumeration value="circle"/>
+      <xs:enumeration value="bounce"/>
+      <xs:enumeration value="elastic"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="easingType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="in"/>
+      <xs:enumeration value="out"/>
+      <xs:enumeration value="inout"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="autoscrollType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="delay" type="xs:int"/>
+        <xs:attribute name="time" type="xs:int"/>
+        <xs:attribute name="repeat" type="xs:int"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="scrolltimeType" mixed="true">
+    <xs:simpleContent>
+      <xs:extension base="xs:unsignedInt">
+        <xs:attribute name="tween" type="tweenType"/>
+        <xs:attribute name="easing" type="easingType"/>
+        <xs:attribute name="acceleration" type="xs:float"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
@@ -243,7 +285,6 @@
       <xs:element name="lefttexture" type="textureType" />
       <xs:element name="righttexture" type="textureType" />
       <xs:element name="overlaytexture" type="textureType" />
-      <xs:element name="autoscroll" type="xs:string" />
       <xs:element name="highlightcolor" type="colorType" />
       <xs:element name="titlecolor" type="colorType" />
       
@@ -312,7 +353,7 @@
     <xs:complexContent>
       <xs:extension base="controlType">
         <xs:choice maxOccurs="unbounded">
-          <xs:element name="scrolltime" type="xs:string" />
+          <xs:element name="scrolltime" type="scrolltimeType" />
           <xs:element name="preloaditems" type="xs:string" />
           <xs:element name="itemlayout" type="xs:string" />
           <xs:element name="focusedlayout" type="xs:string" />
@@ -376,6 +417,18 @@
           <xs:element name="scrollout" type="xs:boolean" default="true"/>
           <xs:element name="pauseatend" type="xs:unsignedInt" default="0"/>
           <xs:element name="resetonlabelchange" type="xs:boolean" default="true"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeTextbox" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="scrolltime" type="scrolltimeType"/>
+          <xs:element name="autoscroll" type="autoscrollType"/>
+          <xs:element name="pagecontrol" type="xs:int"/>
         </xs:choice>
       </xs:extension>
     </xs:complexContent>
