@@ -38,6 +38,8 @@
                 <xs:alternative test="@type='wraplist'" type="controlTypeWrapList"/>
                 <xs:alternative test="@type='fixedlist'" type="controlTypeFixedList"/>
                 <xs:alternative test="@type='fadelabel'" type="controlTypeFadeLabel"/>
+                <xs:alternative test="@type='textbox'" type="controlTypeTextbox"/>
+                <xs:alternative test="@type='progress'" type="controlTypeProgress"/>
               </xs:element>
             </xs:choice>
           </xs:complexType>
@@ -215,7 +217,6 @@
       <xs:element name="aligny" type="xs:string" />
       
       
-      <xs:element name="info" type="xs:string" />
       <xs:element name="number" type="xs:string" />
       <xs:element name="angle" type="xs:string" />
       
@@ -281,10 +282,6 @@
       
       <xs:element name="sliderwidth" type="xs:string" />
       <xs:element name="sliderheight" type="xs:string" />
-      <xs:element name="reveal" type="xs:string" />
-      <xs:element name="lefttexture" type="textureType" />
-      <xs:element name="righttexture" type="textureType" />
-      <xs:element name="overlaytexture" type="textureType" />
       <xs:element name="highlightcolor" type="colorType" />
       <xs:element name="titlecolor" type="colorType" />
       
@@ -429,6 +426,22 @@
           <xs:element name="scrolltime" type="scrolltimeType"/>
           <xs:element name="autoscroll" type="autoscrollType"/>
           <xs:element name="pagecontrol" type="xs:int"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeProgress" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="reveal" type="xs:boolean"/>
+          <xs:element name="texturebg" type="textureType"/>
+          <xs:element name="lefttexture" type="textureType"/>
+          <xs:element name="midtexture" type="textureType"/>
+          <xs:element name="righttexture" type="textureType"/>
+          <xs:element name="overlaytexture" type="textureType"/>
+          <xs:element name="info" type="xs:string"/>
         </xs:choice>
       </xs:extension>
     </xs:complexContent>
