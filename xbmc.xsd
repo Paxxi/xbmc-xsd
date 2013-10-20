@@ -32,7 +32,8 @@
               <xs:element name="control">
                 <xs:alternative test="@type='image'" type="controlTypeImage" />
                 <xs:alternative test="@type='label'" type="controlTypeLabel" />
-                <xs:alternative test="@type='spin'" type="controlTypeSpin" />
+                <xs:alternative test="@type='spincontrol'" type="controlTypeSpin" />
+                <xs:alternative test="@type='spincontrolex'" type="controlTypeSpinEx"/>
                 <xs:alternative test="@type='edit'" type="controlTypeEdit" />
                 <xs:alternative test="@type='list'" type="controlTypeList" />
                 <xs:alternative test="@type='wraplist'" type="controlTypeWrapList"/>
@@ -46,6 +47,12 @@
                 <xs:alternative test="@type='grouplist'" type="controlTypeGroupList"/>
                 <xs:alternative test="@type='radiobutton'" type="controlTypeRadioButton"/>
                 <xs:alternative test="@type='slider'" type="controlTypeSlider"/>
+                <xs:alternative test="@type='sliderex'" type="controlTypeSliderEx"/>
+                <xs:alternative test="@type='rss'" type="controlTypeRss"/>
+                <xs:alternative test="@type='selectbutton'" type="controlTypeSelectButton"/>
+                <xs:alternative test="@type='videowindow'" type="controlType"/>
+                <xs:alternative test="@type='mover'" type="controlTypeMover"/>
+                <xs:alternative test="@type='resize'" type="controlTypeResize"/>
               </xs:element>
             </xs:choice>
           </xs:complexType>
@@ -252,10 +259,6 @@
       <xs:element name="textoffsety" type="xs:string" />
       <xs:element name="textwidth" type="xs:string" />
       <xs:element name="onback" type="xs:string" />
-      <xs:element name="textureleft" type="textureType" />
-      <xs:element name="textureleftfocus" type="textureType" />
-      <xs:element name="textureright" type="textureType" />
-      <xs:element name="texturerightfocus" type="textureType" />
       <xs:element name="alttexturefocus" type="textureType" />
       <xs:element name="alttexturenofocus" type="textureType" />
       
@@ -264,7 +267,6 @@
       <xs:element name="controloffsety" type="xs:string" />
      
       <xs:element name="highlightcolor" type="colorType" />
-      <xs:element name="titlecolor" type="colorType" />
       
     </xs:choice>
     <xs:attribute name="type" type="controlchoiceType" use="required" />
@@ -307,6 +309,16 @@
           <xs:element name="subtype" type="spinControlSubType" default="text" />
           <xs:element name="reverse" type="xs:boolean" />
           <xs:element name="range" type="xs:string" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeSpinEx" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlTypeSpin">
+        <xs:choice maxOccurs="unbounded">
+          <!-- not sure if there's any difference from normal spin -->
         </xs:choice>
       </xs:extension>
     </xs:complexContent>
@@ -507,7 +519,7 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="slider" mixed="true">
+  <xs:complexType name="controlTypeSlider" mixed="true">
     <xs:complexContent>
       <xs:extension base="controlType">
         <xs:choice maxOccurs="unbounded">
@@ -521,11 +533,79 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:complexType name="controlTypeSliderEx" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlTypeSlider">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="sliderwidth" type="xs:float"/>
+          <xs:element name="sliderheight" type="xs:float"/>
+          <xs:element name="texturefocus" type="textureType"/>
+          <xs:element name="texturenofocus" type="textureType"/>
+          <xs:element name="label" type="xs:string"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeRss" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="tagset" type="xs:string"/>
+          <xs:element name="headlinecolor" type="colorType"/>
+          <xs:element name="titlecolor" type="colorType"/>
+          <xs:element name="urlset" type="xs:int"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeSelectButton" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texturefoxus" type="textureType"/>
+          <xs:element name="texturenofocus" type="textureType"/>
+          <xs:element name="texturebackground" type="textureType"/>
+          <xs:element name="textureleft" type="textureType"/>
+          <xs:element name="textureright" type="textureType"/>
+          <xs:element name="textureleftfocus" type="textureType"/>
+          <xs:element name="texturerightfocus" type="textureType"/>
+          <xs:element name="label" type="xs:string"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeMover" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texturefocus" type="textureType"/>
+          <xs:element name="texturenofocus" type="textureType"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeResize" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texturefocus" type="textureType"/>
+          <xs:element name="texturenofocus" type="textureType"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+    
   <xs:simpleType name="controlchoiceType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="image" />
+      <xs:enumeration value="largeimage"/>
       <xs:enumeration value="label" />
-      <xs:enumeration value="spin" />
+      <xs:enumeration value="spincontrol" />
+      <xs:enumeration value="spincontrolex"/>
       <xs:enumeration value="edit" />
       <xs:enumeration value="list" />
       <xs:enumeration value="wraplist"/>
@@ -539,6 +619,12 @@
       <xs:enumeration value="grouplist" />
       <xs:enumeration value="radiobutton" />
       <xs:enumeration value="slider" />
+      <xs:enumeration value="sliderex"/>
+      <xs:enumeration value="rss"/>
+      <xs:enumeration value="selectbutton"/>
+      <xs:enumeration value="videowindow"/>
+      <xs:enumeration value="mover"/>
+      <xs:enumeration value="resize"/>
     </xs:restriction>
   </xs:simpleType>
   
