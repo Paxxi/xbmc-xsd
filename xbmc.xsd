@@ -42,6 +42,10 @@
                 <xs:alternative test="@type='progress'" type="controlTypeProgress"/>
                 <xs:alternative test="@type='button'" type="controlTypeButton"/>
                 <xs:alternative test="@type='checkmark'" type="controlTypeCheckmark"/>
+                <xs:alternative test="@type='group'" type="controlTypeGroup"/>
+                <xs:alternative test="@type='grouplist'" type="controlTypeGroupList"/>
+                <xs:alternative test="@type='radiobutton'" type="controlTypeRadioButton"/>
+                <xs:alternative test="@type='slider'" type="controlTypeSlider"/>
               </xs:element>
             </xs:choice>
           </xs:complexType>
@@ -209,12 +213,9 @@
       <xs:element name="onright" type="xs:string" />
       <xs:element name="hitrect" type="xs:string" />
       <xs:element name="pulseonselect" type="xs:string" />
-      <xs:element name="defaultcontrol" type="defaultControlType" />
       <xs:element name="control" type="controlType" />
-      <xs:element name="itemgap" type="xs:string" />
       
       
-      <xs:element name="usecontrolcoords" type="xs:string" />
       <xs:element name="align" type="xs:string" />
       <xs:element name="aligny" type="xs:string" />
       
@@ -251,35 +252,17 @@
       <xs:element name="textoffsety" type="xs:string" />
       <xs:element name="textwidth" type="xs:string" />
       <xs:element name="onback" type="xs:string" />
-      <xs:element name="textureradioon" type="textureType" />
-      <xs:element name="textureradiooff" type="textureType" />
-      <xs:element name="selected" type="xs:string" />
-      <xs:element name="radioposx" type="xs:string" />
-      <xs:element name="radioposy" type="xs:string" />
-      <xs:element name="radiowidth" type="xs:string" />
-      <xs:element name="radioheight" type="xs:string" />
       <xs:element name="textureleft" type="textureType" />
       <xs:element name="textureleftfocus" type="textureType" />
       <xs:element name="textureright" type="textureType" />
       <xs:element name="texturerightfocus" type="textureType" />
       <xs:element name="alttexturefocus" type="textureType" />
       <xs:element name="alttexturenofocus" type="textureType" />
-      <xs:element name="usealttexture" type="textureType" />
       
       
-      <xs:element name="texturesliderbar" type="textureType" />
-      <xs:element name="textureslidernib" type="textureType" />
-      <xs:element name="textureslidernibfocus" type="textureType" />
       <xs:element name="controloffsetx" type="xs:string" />
       <xs:element name="controloffsety" type="xs:string" />
-      <xs:element name="action" type="xs:string" />
-      <xs:element name="texturesliderbackground" type="textureType" />
-      <xs:element name="texturesliderbarfocus" type="textureType" />
-      <xs:element name="texturesliderbarnib" type="textureType" />
-      <xs:element name="texturesliderbarnibfocus" type="textureType" />
-      
-      <xs:element name="sliderwidth" type="xs:string" />
-      <xs:element name="sliderheight" type="xs:string" />
+     
       <xs:element name="highlightcolor" type="colorType" />
       <xs:element name="titlecolor" type="colorType" />
       
@@ -475,6 +458,69 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:complexType name="controlTypeGroup" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="defaultcontrol" type="defaultControlType"/>
+          <xs:element name="renderfocusedlast" type="xs:boolean"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeGroupList" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlTypeGroup">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="scrolltime" type="scrolltimeType"/>
+          <xs:element name="usecontrolcoords" type="xs:boolean"/>
+          <xs:element name="itemgap" type="xs:float"/>
+          <xs:element name="pagecontrol" type="xs:int"/>
+          <xs:element name="orientation" type="orientationType"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="controlTypeRadioButton" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="texturefocus" type="textureType"/>
+          <xs:element name="texturenofocus" type="textureType"/>
+          <xs:element name="textureradioonfocus" type="textureType"/>
+          <xs:element name="textureradioonnofocus" type="textureType"/>
+          <xs:element name="textureradioofffocus" type="textureType"/>
+          <xs:element name="textureradiooffnofocus" type="textureType"/>
+          <xs:element name="radiowidth" type="xs:float"/>
+          <xs:element name="radioheight" type="xs:float"/>
+          <xs:element name="radioposx" type="xs:float"/>
+          <xs:element name="radioposy" type="xs:float"/>
+          <xs:element name="usealttexture" type="xs:string"/>
+          <xs:element name="selected" type="xs:string"/>
+          <xs:element name="onclick" type="actionType"/>
+          <xs:element name="onfocus" type="actionType"/>
+          <xs:element name="onunfocus" type="actionType"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="slider" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="controlType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="info" type="xs:string"/>
+          <xs:element name="texturesliderbar" type="textureType"/>
+          <xs:element name="textureslidernib" type="textureType"/>
+          <xs:element name="textureslidernibfocus" type="textureType"/>
+          <xs:element name="action" type="actionType"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <xs:simpleType name="controlchoiceType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="image" />
@@ -502,6 +548,13 @@
       <xs:enumeration value="page" />
       <xs:enumeration value="float" />
       <xs:enumeration value="text" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="orientationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="horizontal"/>
+      <xs:enumeration value="vertical"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="aspectratioType">
