@@ -1,0 +1,7 @@
+<tag name="scrolltime" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="tween"/>
+		<attrib name="easing"/>
+	</attributes>
+</tag>

@@ -1,0 +1,8 @@
+<tag name="autoscroll" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="delay"/>
+		<attrib name="time"/>
+		<attrib name="repeat"/>
+	</attributes>
+</tag>

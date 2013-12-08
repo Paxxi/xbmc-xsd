@@ -1,0 +1,8 @@
+<tag name="aspectratio" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="scalediffuse"/>
+		<attrib name="align"/>
+		<attrib name="aligny"/>
+	</attributes>
+</tag>
