@@ -1,0 +1,13 @@
+<tag name="texture" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="diffuse"/>
+		<attrib name="colordiffuse"/>
+		<attrib name="border"/>
+		<attrib name="background"/>
+		<attrib name="flipx"/>
+		<attrib name="flipy"/>
+		<attrib name="align"/>
+		<attrib name="aligny"/>
+	</attributes>
+</tag>

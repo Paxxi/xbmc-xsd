@@ -1,0 +1,13 @@
+<tag name="texturenofocus" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="border"/>
+		<attrib name="flipx"/>
+		<attrib name="flipy"/>
+		<attrib name="alig"/>
+		<attrib name="aligny"/>
+		<attrib name="background"/>
+		<attrib name="diffuse"/>
+		<attrib name="colordiffuse"/>
+	</attributes>
+</tag>

@@ -1,0 +1,8 @@
+<tag name="itemlayout" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="condition"/>
+		<attrib name="width"/>
+		<attrib name="height"/>
+	</attributes>
+</tag>

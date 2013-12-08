@@ -1,0 +1,8 @@
+<tag name="fontset" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="id"/>
+		<attrib name="idloc"/>
+		<attrib name="unicode"/>
+	</attributes>
+</tag>

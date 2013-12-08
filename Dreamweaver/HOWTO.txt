@@ -1,0 +1,22 @@
+
+navigate to TagLibraries Folder
+
+Vista/Windows 7: C:\Users\<username>\AppData\Roaming\Adobe\Dreamweaver C*\<language>\Configuration\TagLibraries
+
+Windows XP: C:\Documents and Settings\<username>\Application Data\Adobe\Dreamweaver C*\<language>\Configuration\TagLibraries
+
+Mac OS X: Macintosh HD:<username>:Library:Application Support:Adobe:Dreamweaver C*:<language>:Configuration:TagLibraries
+
+then to get the library You need to modify:
+
+TagLibraries.vtm (from Dreamweaver user folder)
+
+adding the lines from the file you just downloaded:
+
+copy_paste_to_TagLibraries.vtm
+
+also copy the folder skin inside the TagLibraries directory.
+
+
+enjoy.
+

@@ -1,0 +1,6 @@
+<tag name="property" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="name"/>
+	</attributes>
+</tag>

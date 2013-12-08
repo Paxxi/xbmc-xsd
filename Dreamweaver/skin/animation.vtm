@@ -1,0 +1,19 @@
+<tag name="animation" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<attributes>
+		<attrib name="effect"/>
+		<attrib name="start"/>
+		<attrib name="end"/>
+		<attrib name="condition"/>
+		<attrib name="delay"/>
+		<attrib name="time"/>
+		<attrib name="reversible"/>
+		<attrib name="acceleration"/>
+		<attrib name="center"/>
+		<attrib name="loop"/>
+		<attrib name="pulse"/>
+		<attrib name="tween"/>
+		<attrib name="easing"/>
+		<attrib name="type"/>
+	</attributes>
+</tag>

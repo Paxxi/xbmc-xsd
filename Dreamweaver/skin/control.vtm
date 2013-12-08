@@ -1,0 +1,8 @@
+<tag name="control" endtag="yes" tagtype="nonempty">
+	<tagformat nlbeforetag="1" nlaftertag="1" indentcontents="yes" nlbeforecontents="1" nlaftercontents="1" />
+	<attributes>
+		<attrib name="type"/>
+		<attrib name="id"/>
+		<attrib name="description"/>
+	</attributes>
+</tag>
