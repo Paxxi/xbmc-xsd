@@ -20,7 +20,11 @@
             <xs:attribute name="allowhiddenfocus" type="xs:boolean" />
           </xs:complexType>
         </xs:element>
-        <xs:element name="animation" type="animationType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="animation" minOccurs="0" maxOccurs="unbounded" >
+          <xs:alternative test="@effect" type="animationSingleType" />
+          <xs:alternative test="@type" type="animationType" />
+          <xs:alternative type="xs:error" />
+       </xs:element>
         <xs:element name="zorder" type="xs:string" minOccurs="0" maxOccurs="1" />
         <xs:element name="coordinates" type="coordinatesType" minOccurs="0" maxOccurs="1" />
         <xs:element name="previouswindow" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -66,6 +70,7 @@
         </xs:element>
       </xs:choice>
       <xs:attribute name="type" type="xs:string" />
+      <xs:attribute name="id" type="xs:int" />
     </xs:complexType>
   </xs:element>
   
@@ -159,7 +164,38 @@
     <xs:attribute name="condition" type="xs:string" />
     <xs:attribute name="reversible" type="xs:boolean" />
   </xs:complexType>
+
+  <xs:complexType name="animationSingleType">
+    <xs:simpleContent>
+      <xs:extension base="effectsType">
+        <xs:attribute name="effect" type="animationEffectsType" />
+        <xs:attribute name="time" type="xs:float" />
+        <xs:attribute name="delay" type="xs:float" />
+        <xs:attribute name="start" type="startOrEndType" />
+        <xs:attribute name="end" type="startOrEndType" />
+        <xs:attribute name="acceleration" type="xs:int" />
+        <xs:attribute name="center" type="coordinateStringType" />
+        <xs:attribute name="condition" type="xs:string" />
+        <xs:attribute name="reversible" type="xs:boolean" />
+        <xs:attribute name="loop" type="xs:boolean" />
+        <xs:attribute name="pulse" type="xs:boolean" />
+        <xs:attribute name="tween" type="tweenType" />
+        <xs:attribute name="easing" type="easingType" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   
+  <xs:simpleType name="startOrEndType">
+    <xs:restriction base="xs:string">
+      <!-- start is a percentage for fade -->
+      <!-- start is a degree for rotations -->
+      <xs:pattern value="\d{1,3}" />
+      <!-- start is a coordinateString for slide or zoom (technically for zoom its a , seperated list of 2 percents) -->
+      <!-- Note: With zooms you can also specify the coordinates and dimensions of the texture. (ie start="posx,posy,width,height"). -->
+      <xs:pattern value="-?\d+,-?\d+(,\d+,\d+)?" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="animationEffectsType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="fade" />
@@ -173,12 +209,14 @@
   
   <xs:simpleType name="effectsType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="visible" />
-      <xs:enumeration value="hidden" />
-      <xs:enumeration value="focus" />
-      <xs:enumeration value="unfocus" />
-      <xs:enumeration value="windowopen" />
-      <xs:enumeration value="windowclose" />
+      <xs:enumeration value="WindowOpen" />
+      <xs:enumeration value="WindowClose" />
+      <xs:enumeration value="Visible" />
+      <xs:enumeration value="Hidden" />
+      <xs:enumeration value="Focus" />
+      <xs:enumeration value="Unfocus" />
+      <xs:enumeration value="Conditional" />
+      <xs:enumeration value="VisibleChange" />
     </xs:restriction>
   </xs:simpleType>
   
@@ -202,6 +240,13 @@
       <xs:element name="origin" type="originType" />
     </xs:sequence>
   </xs:complexType>
+
+  <xs:simpleType name="coordinateStringType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d+,\d+" />
+      <xs:pattern value="auto" />
+    </xs:restriction>
+  </xs:simpleType>
   
   <xs:complexType name="originType">
     <xs:simpleContent>
@@ -223,7 +268,11 @@
       <xs:element name="width" type="xs:string" />
       <xs:element name="height" type="xs:string" />
       <xs:element name="visible" type="xs:string" />
-      <xs:element name="animation" type="xs:string" />
+      <xs:element name="animation">
+        <xs:alternative test="@effect" type="animationSingleType" />
+        <xs:alternative test="@type" type="animationType" />
+        <xs:alternative type="xs:error" />
+      </xs:element>
       <xs:element name="camera" type="xs:string" />
       <xs:element name="colordiffuse" type="colorType" />
       <xs:element name="onup" type="actionType" />
@@ -266,6 +315,7 @@
     <xs:attribute name="type" type="controlchoiceType" use="required" />
     <xs:attribute name="id" type="xs:integer" />
   </xs:complexType>
+  
   <xs:complexType name="controlTypeImage" mixed="true">
     <xs:complexContent>
       <xs:extension base="controlType">
