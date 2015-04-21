@@ -1,0 +1,1145 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"  version="v1.1">
+    <!--
+       I use element groups instead of inheritance, because inheritance forces the base type elements to be first, then the derived type
+       You will need a XSD 1.1 parser to use this file, I recommend:
+         https://jeszysblog.wordpress.com/2012/09/27/free-and-open-source-xsd-1-1-validation-tool/
+         https://dl.dropbox.com/u/10564628/xsd11-validator.jar
+       You can update the xerces lib by unzipping the jar, dropping the new xerces in it, then rezipping it to a jar
+       Here's a good way to scan your skin:
+         $ mkdir ~/validation
+         $ for file in <path_to_your_skin>/720p/*.xml; do java -jar ~/xsd11-validator.jar -if $file -sf ~/kodi.xsd 2> ~/validation/`basename $file`; done
+         $ cd ~/validation
+         $ find . -size +0c -exec less {} \;
+         .... have fun fixing errors .... (or updating this and/or updating the skinning manual)
+    -->
+    <xs:element name="animation">
+        <xs:alternative test="@effect" type="animationSingleType" />
+        <xs:alternative test="@type" type="animationType" />
+        <xs:alternative type="xs:error" />
+    </xs:element>
+
+    <xs:element name="camera">
+        <xs:complexType>
+            <xs:attribute name="x" type="xs:int" />
+            <xs:attribute name="y" type="xs:int" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="control">
+        <xs:alternative test="@type='image'" type="controlTypeImage" />
+        <xs:alternative test="@type='largeimage'" type="controlTypeImage" />
+        <xs:alternative test="@type='label'" type="controlTypeLabel" />
+        <xs:alternative test="@type='spincontrol'" type="controlTypeSpin" />
+        <xs:alternative test="@type='spincontrolex'" type="controlTypeSpinEx"/>
+        <xs:alternative test="@type='edit'" type="controlTypeEdit" />
+        <xs:alternative test="@type='list'" type="controlTypeList" />
+        <xs:alternative test="@type='wraplist'" type="controlTypeWrapList"/>
+        <xs:alternative test="@type='fixedlist'" type="controlTypeFixedList"/>
+        <xs:alternative test="@type='fadelabel'" type="controlTypeFadeLabel"/>
+        <xs:alternative test="@type='textbox'" type="controlTypeTextbox"/>
+        <xs:alternative test="@type='progress'" type="controlTypeProgress"/>
+        <xs:alternative test="@type='button'" type="controlTypeButton"/>
+        <xs:alternative test="@type='checkmark'" type="controlTypeCheckmark"/>
+        <xs:alternative test="@type='group'" type="controlTypeGroup"/>
+        <xs:alternative test="@type='grouplist'" type="controlTypeGroupList"/>
+        <xs:alternative test="@type='radiobutton'" type="controlTypeRadioButton"/>
+        <xs:alternative test="@type='slider'" type="controlTypeSlider"/>
+        <xs:alternative test="@type='sliderex'" type="controlTypeSliderEx"/>
+        <xs:alternative test="@type='rss'" type="controlTypeRss"/>
+        <xs:alternative test="@type='selectbutton'" type="controlTypeSelectButton"/>
+        <xs:alternative test="@type='videowindow'" type="controlType"/>
+        <xs:alternative test="@type='mover'" type="controlTypeMover"/>
+        <xs:alternative test="@type='resize'" type="controlTypeResize"/>
+        <xs:alternative test="@type='renderaddon'" type="controlType"/>
+        <xs:alternative test="@type='visualisation'" type="controlType"/>
+        <xs:alternative test="@type='karvisualisation'" type="controlType"/>
+        <xs:alternative test="@type='multiimage'" type="controlTypeMultiImage"/>
+        <xs:alternative test="@type='multiselect'" type="controlTypeMultiSelect"/>
+        <xs:alternative test="@type='epggrid'" type="controlTypeEpgGrid"/>
+        <xs:alternative test="@type='panel'" type="controlTypePanel"/>
+        <xs:alternative test="@type='togglebutton'" type="controlTypeToggleButton"/>
+        <xs:alternative test="@type='scrollbar'" type="controlTypeScrollbar"/>
+        <xs:alternative type="xs:error" />
+    </xs:element>
+
+    <xs:element name="default">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:any processContents="lax" minOccurs="0"/>
+            </xs:choice>
+            <xs:attribute name="type" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="fonts">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+                <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="include" />
+                <xs:element name="fontset" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded" minOccurs="1">
+                            <xs:element name="font" minOccurs="1" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:choice maxOccurs="unbounded" minOccurs="1">
+                                        <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                                        <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" />
+                                        <xs:element name="filename" type="xs:string" minOccurs="1" maxOccurs="1" />
+                                        <xs:element name="size" type="actionType" minOccurs="0" maxOccurs="1" />
+                                        <xs:element name="style" type="xs:string" minOccurs="0" maxOccurs="1" />
+                                        <xs:element name="aspect" type="xs:float" minOccurs="0" maxOccurs="1" />
+                                        <xs:element name="linespacing" type="xs:float" minOccurs="0" maxOccurs="1" />
+                                    </xs:choice>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:choice>
+                        <xs:attribute name="id" type="xs:string" />
+                        <xs:attribute name="idloc" type="xs:int" />
+                        <xs:attribute name="unicode" type="xs:boolean" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="include">
+        <xs:alternative test="@name" type="includeDefineType" />
+        <xs:alternative test="@file" type="includeFileType" />
+        <xs:alternative type="includeType" />
+    </xs:element>
+
+    <xs:element name="includes">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded" minOccurs="1">
+                <xs:element ref="include" />
+                <xs:element ref="default" />
+                <xs:element name="constant">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute name="name" type="xs:string" />
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="label">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="fallback" type="xs:string" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="viewtype">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="viewtypeType">
+                    <xs:attribute name="label" type="xs:string" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="visible">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="allowhiddenfocus" type="xs:boolean" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="window">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+                <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="onload" type="actionType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="onunload" type="actionType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="defaultcontrol" type="defaultControlType" minOccurs="0" maxOccurs="1" />
+                <xs:element name="allowoverlay" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+                <xs:element name="backgroundcolor" type="colorType" minOccurs="0" maxOccurs="1" />
+                <xs:element name="views" type="xs:string" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">
+              A comma(,) delimited list of view IDs
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="visible" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="animation" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="zorder" type="xs:string" minOccurs="0" maxOccurs="1" />
+                <xs:element name="coordinates" type="coordinatesType" minOccurs="0" maxOccurs="1" />
+                <xs:element name="previouswindow" type="xs:string" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="include" />
+                <xs:element name="controls">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded" minOccurs="0">
+                            <xs:element ref="animation" minOccurs="0" maxOccurs="unbounded" />
+                            <xs:element ref="include" />
+                            <xs:element ref="control" />
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+            <xs:attribute name="type" type="xs:string" />
+            <xs:attribute name="id" type="xs:int" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="attribgroupAnimation">
+        <xs:attribute name="time" type="xs:float" />
+        <xs:attribute name="delay" type="xs:float" />
+        <xs:attribute name="start" type="startOrEndType" />
+        <xs:attribute name="end" type="startOrEndType" />
+        <xs:attribute name="acceleration" type="xs:int" />
+        <xs:attribute name="center" type="coordinateStringType" />
+        <xs:attribute name="condition" type="xs:string" />
+        <xs:attribute name="reversible" type="xs:boolean" />
+        <xs:attribute name="loop" type="xs:boolean" />
+        <xs:attribute name="pulse" type="xs:boolean" />
+        <xs:attribute name="tween" type="tweenType" />
+        <xs:attribute name="easing" type="easingType" />
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="attribgroupcontrolType">
+        <xs:attribute name="type" type="controlchoiceType" use="required" />
+        <xs:attribute name="id" type="xs:integer" />
+    </xs:attributeGroup>
+
+    <xs:complexType name="actionType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="condition" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="animationSingleType">
+        <xs:simpleContent>
+            <xs:extension base="effectsType">
+                <xs:attribute name="effect" type="animationEffectsType" />
+                <xs:attributeGroup ref="attribgroupAnimation" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="animationType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="effect">
+                <xs:complexType>
+                    <xs:attribute name="type" type="animationEffectsType" />
+                    <xs:attributeGroup ref="attribgroupAnimation" />
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+        <xs:attribute name="type" type="effectsType" />
+        <xs:attribute name="condition" type="xs:string" />
+        <xs:attribute name="reversible" type="xs:boolean" />
+    </xs:complexType>
+
+    <xs:complexType name="autoscrollType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="delay" type="xs:int"/>
+                <xs:attribute name="time" type="xs:int"/>
+                <xs:attribute name="repeat" type="xs:int"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlType">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeButton">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+            <xs:element ref="label" />
+            <xs:element name="label2" type="xs:string"/>
+            <xs:element name="onclick" type="actionType"/>
+            <xs:element name="onfocus" type="actionType"/>
+            <xs:element name="onunfocus" type="actionType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeCheckmark">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturecheckmark" type="textureType"/>
+            <xs:element name="texturecheckmarknofocus" type="textureType"/>
+            <xs:element name="markwidth" type="xs:float"/>
+            <xs:element name="markheight" type="xs:float"/>
+            <xs:element ref="label" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeContent">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element ref="include" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="item">
+                <xs:complexType>
+                    <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element name="description" type="xs:string"/>
+                        <xs:element ref="label" />
+                        <xs:element name="label2" type="xs:string"/>
+                        <xs:element ref="visible" />
+                        <xs:element name="onclick" type="xs:string"/>
+                        <xs:element name="thumb" type="xs:string"/>
+                        <xs:element name="icon" type="xs:string"/>
+                        <xs:element name="property">
+                            <xs:complexType>
+                                <xs:simpleContent>
+                                    <xs:extension base="xs:string">
+                                        <xs:attribute name="name" type="xs:string"/>
+                                    </xs:extension>
+                                </xs:simpleContent>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:choice>
+                    <xs:attribute name="id" type="xs:int"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeEdit">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType" />
+            <xs:element name="texturenofocus" type="textureType" />
+            <xs:element name="password" type="xs:boolean" />
+            <xs:element ref="label" />
+            <xs:element name="ontextchange" type="actionType" />
+            <xs:element name="hinttext" type="xs:string" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeEpgGrid">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="orientation" type="orientationType"/>
+            <xs:element name="scrolltime" type="scrolltimeType"/>
+            <xs:element name="preloaditems" type="xs:int"/>
+            <xs:element name="timeblocks" type="xs:int"/>
+            <xs:element name="rulerunit" type="xs:int"/>
+            <xs:element name="channellayout" type="controlTypeListItem"/>
+            <xs:element name="focusedchannellayout" type="controlTypeListItem"/>
+            <xs:element name="focusedlayout" type="controlTypeListItem"/>
+            <xs:element name="itemlayout" type="controlTypeListItem"/>
+            <xs:element name="rulerlayout" type="controlTypeListItem"/>
+            <xs:element ref="viewtype" maxOccurs="1" minOccurs="0" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeFadeLabel">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element ref="label" />
+            <xs:element name="scrollout" type="xs:boolean" default="true"/>
+            <xs:element name="pauseatend" type="xs:unsignedInt" default="0"/>
+            <xs:element name="resetonlabelchange" type="xs:boolean" default="true"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeFixedList">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolTypeList" />
+            <xs:element name="focusposition" type="xs:int"/>
+            <xs:element name="movement" type="xs:int"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeGroup">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="defaultcontrol" type="defaultControlType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeGroupList">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="defaultcontrol" type="defaultControlType"/>
+            <xs:element name="scrolltime" type="scrolltimeType"/>
+            <xs:element name="usecontrolcoords" type="xs:boolean"/>
+            <xs:element name="itemgap" type="xs:float"/>
+            <xs:element name="pagecontrol" type="xs:int"/>
+            <xs:element name="orientation" type="orientationType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeImage">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texture" type="textureType" />
+            <xs:element name="bordertexture" type="textureType" />
+            <xs:element name="bordersize" type="xs:string" />
+            <xs:element name="fadetime" type="xs:string" />
+            <xs:element name="info" type="xs:string" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeLabel">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element ref="label" />
+            <xs:element name="wrapmultiline" type="xs:boolean" />
+            <xs:element name="haspath" type="xs:boolean" />
+            <!-- Actually scroll is only valid when label is used inside a list ... TODO: Make a ListLabelType ? -->
+            <xs:element name="scroll" type="xs:boolean" />
+            <xs:element name="selectedcolor" type="colorType" />
+            <xs:element name="info" type="xs:string"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeList">
+        <xs:group ref="groupcontrolTypeList" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeListItem">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolTypeList" />
+        </xs:choice>
+        <xs:attribute name="width" type="xs:float"/>
+        <xs:attribute name="height" type="xs:float"/>
+        <xs:attribute name="condition" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeMover">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeMultiImage">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texture" type="textureType" />
+            <xs:element name="bordertexture" type="textureType" />
+            <xs:element name="bordersize" type="xs:string" />
+            <xs:element name="fadetime" type="xs:string" />
+            <xs:element name="imagepath" type="textureType"/>
+            <xs:element name="timeperimage" type="xs:unsignedInt"/>
+            <xs:element name="randomize" type="xs:boolean"/>
+            <xs:element name="loop" type="xs:boolean"/>
+            <xs:element name="pauseatend" type="xs:unsignedInt"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeMultiSelect">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypePanel">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolTypeList" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeProgress">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="reveal" type="xs:boolean"/>
+            <xs:element name="texturebg" type="textureType"/>
+            <xs:element name="lefttexture" type="textureType"/>
+            <xs:element name="midtexture" type="textureType"/>
+            <xs:element name="righttexture" type="textureType"/>
+            <xs:element name="overlaytexture" type="textureType"/>
+            <xs:element name="info" type="xs:string"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeRadioButton">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+            <xs:element name="textureradioonfocus" type="textureType"/>
+            <xs:element name="textureradioonnofocus" type="textureType"/>
+            <xs:element name="textureradioofffocus" type="textureType"/>
+            <xs:element name="textureradiooffnofocus" type="textureType"/>
+            <xs:element ref="label" />
+            <xs:element name="radiowidth" type="xs:float"/>
+            <xs:element name="radioheight" type="xs:float"/>
+            <xs:element name="radioposx" type="xs:float"/>
+            <xs:element name="radioposy" type="xs:float"/>
+            <xs:element name="selected" type="xs:string"/>
+            <xs:element name="onclick" type="actionType"/>
+            <xs:element name="onfocus" type="actionType"/>
+            <xs:element name="onunfocus" type="actionType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeResize">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeRss">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="tagset" type="xs:string"/>
+            <xs:element name="headlinecolor" type="colorType"/>
+            <xs:element name="titlecolor" type="colorType"/>
+            <xs:element name="urlset" type="xs:int"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeScrollbar">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturesliderbackground" type="textureType"/>
+            <xs:element name="texturesliderbar" type="textureType"/>
+            <xs:element name="texturesliderbarfocus" type="textureType"/>
+            <xs:element name="textureslidernib" type="textureType"/>
+            <xs:element name="textureslidernibfocus" type="textureType"/>
+            <xs:element name="orientation" type="orientationType"/>
+            <xs:element name="showonepage" type="xs:boolean"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeSelectButton">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+            <xs:element name="texturebg" type="textureType"/>
+            <xs:element name="textureleft" type="textureType"/>
+            <xs:element name="textureright" type="textureType"/>
+            <xs:element name="textureleftfocus" type="textureType"/>
+            <xs:element name="texturerightfocus" type="textureType"/>
+            <xs:element ref="label" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeSlider">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="info" type="xs:string"/>
+            <xs:element name="texturesliderbar" type="textureType"/>
+            <xs:element name="textureslidernib" type="textureType"/>
+            <xs:element name="textureslidernibfocus" type="textureType"/>
+            <xs:element name="action" type="actionType"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeSliderEx">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="sliderwidth" type="xs:float"/>
+            <xs:element name="sliderheight" type="xs:float"/>
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+            <xs:element ref="label" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeSpin">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+            <xs:element name="textureup" type="textureType" />
+            <xs:element name="textureupfocus" type="textureType" />
+            <xs:element name="texturedown" type="textureType" />
+            <xs:element name="texturedownfocus" type="textureType" />
+            <xs:element name="spincolor" type="colorType"/>
+            <xs:element ref="label" />
+            <xs:element name="showonepage" type="xs:boolean" />
+            <xs:element name="subtype" type="spinControlSubType" default="text" />
+            <xs:element name="reverse" type="xs:boolean" />
+            <xs:element name="range" type="xs:string" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeSpinEx">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="spinposx" type="xs:int"/>
+            <xs:element name="spinposy" type="xs:int"/>
+            <xs:element name="spinwidth" type="xs:int"/>
+            <xs:element name="spinheight" type="xs:int"/>
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+            <xs:element name="textureup" type="textureType" />
+            <xs:element name="textureupfocus" type="textureType" />
+            <xs:element name="texturedown" type="textureType" />
+            <xs:element name="texturedownfocus" type="textureType" />
+            <xs:element ref="label" />
+            <xs:element name="reverse" type="xs:boolean" />
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeTextbox">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="scrolltime" type="scrolltimeType"/>
+            <xs:element name="autoscroll" type="autoscrollType"/>
+            <xs:element name="pagecontrol" type="xs:int"/>
+            <xs:element ref="label"/>
+            <xs:element name="label2" type="xs:string"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeToggleButton">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolType" />
+            <xs:element name="onclick" type="actionType"/>
+            <xs:element name="onfocus" type="actionType"/>
+            <xs:element name="onunfocus" type="actionType"/>
+            <xs:element name="altclick" type="actionType"/>
+            <xs:element name="texturefocus" type="textureType"/>
+            <xs:element name="texturenofocus" type="textureType"/>
+            <xs:element name="alttexturefocus" type="textureType"/>
+            <xs:element name="alttexturenofocus" type="textureType"/>
+            <xs:element ref="label" />
+            <xs:element name="altlabel" type="xs:string"/>
+            <xs:element name="usealttexture" type="xs:string"/>
+            <xs:element name="selected" type="xs:string"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="controlTypeWrapList">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:group ref="groupcontrolTypeList" />
+            <xs:element name="focusposition" type="xs:int"/>
+        </xs:choice>
+        <xs:attributeGroup ref="attribgroupcontrolType" />
+    </xs:complexType>
+
+    <xs:complexType name="coordinatesType">
+        <xs:sequence>
+            <xs:element name="posx" type="xs:string" />
+            <xs:element name="posy" type="xs:string" />
+            <xs:element name="origin" type="originType" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="defaultControlType">
+        <xs:simpleContent>
+            <xs:extension base="xs:int">
+                <xs:attribute name="always" type="xs:boolean" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="heightWidthType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <!-- These are actually only valid if the value of the element is auto -->
+                <xs:attribute name="min" type="xs:unsignedInt" />
+                <xs:attribute name="max" type="xs:unsignedInt" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="hitrectType">
+        <xs:attribute name="x" type="xs:float" use="required" />
+        <xs:attribute name="y" type="xs:float" use="required" />
+        <xs:attribute name="w" type="xs:float" />
+        <xs:attribute name="h" type="xs:float"  />
+    </xs:complexType>
+
+    <!-- This is defining an include, it can contain anything -->
+    <xs:complexType name="includeDefineType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:any processContents="lax" minOccurs="0"/>
+        </xs:choice>
+        <xs:attribute name="name" type="xs:string" />
+    </xs:complexType>
+
+    <!-- This is including a file -->
+    <xs:complexType name="includeFileType">
+        <xs:attribute name="file" type="xs:string" />
+        <xs:attribute name="condition" type="xs:string" />
+    </xs:complexType>
+
+    <!-- This is when you are including a predefined section into your skin -->
+    <xs:complexType name="includeType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="condition" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="originType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="x" type="xs:string" />
+                <xs:attribute name="y" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="scrolltimeType">
+        <xs:simpleContent>
+            <xs:extension base="xs:unsignedInt">
+                <xs:attribute name="tween" type="tweenType"/>
+                <xs:attribute name="easing" type="easingType"/>
+                <xs:attribute name="acceleration" type="xs:float"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="textureType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="fallback" type="xs:string" />
+                <xs:attribute name="border" type="xs:string"/>
+                <xs:attribute name="flipy" type="xs:boolean"/>
+                <xs:attribute name="flipx" type="xs:boolean"/>
+                <xs:attribute name="colordiffuse" type="colorType" use="optional" />
+                <xs:attribute name="background" type="xs:boolean" use="optional" />
+                <xs:attribute name="diffuse" type="xs:string" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="alignType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="center" />
+            <xs:enumeration value="right" />
+            <xs:enumeration value="left" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="alignyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="center" />
+            <xs:enumeration value="bottom" />
+            <xs:enumeration value="top" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="animationEffectsType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="fade" />
+            <xs:enumeration value="slide" />
+            <xs:enumeration value="zoom" />
+            <xs:enumeration value="rotate" />
+            <xs:enumeration value="rotatex" />
+            <xs:enumeration value="rotatey" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="aspectratioType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="keep" />
+            <xs:enumeration value="scale" />
+            <xs:enumeration value="center" />
+            <xs:enumeration value="stretch" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="colorType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+        Color defined as either a name or AARRGGBB value. The list provided are the default names available in XBMC but it`s possible to define others.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:union>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="aliceblue" />
+                    <xs:enumeration value="antiquewhite" />
+                    <xs:enumeration value="aqua" />
+                    <xs:enumeration value="aquamarine" />
+                    <xs:enumeration value="azure" />
+                    <xs:enumeration value="beige" />
+                    <xs:enumeration value="bisque" />
+                    <xs:enumeration value="black" />
+                    <xs:enumeration value="blanchedalmond" />
+                    <xs:enumeration value="blue" />
+                    <xs:enumeration value="blueviolet" />
+                    <xs:enumeration value="brown" />
+                    <xs:enumeration value="burlywood" />
+                    <xs:enumeration value="cadetblue" />
+                    <xs:enumeration value="chartreuse" />
+                    <xs:enumeration value="chocolate" />
+                    <xs:enumeration value="coral" />
+                    <xs:enumeration value="cornflowerblue" />
+                    <xs:enumeration value="cornsilk" />
+                    <xs:enumeration value="crimson" />
+                    <xs:enumeration value="cyan" />
+                    <xs:enumeration value="darkblue" />
+                    <xs:enumeration value="darkcyan" />
+                    <xs:enumeration value="darkgoldenrod" />
+                    <xs:enumeration value="darkgray" />
+                    <xs:enumeration value="darkgreen" />
+                    <xs:enumeration value="darkkhaki" />
+                    <xs:enumeration value="darkmagenta" />
+                    <xs:enumeration value="darkolivegreen" />
+                    <xs:enumeration value="darkorange" />
+                    <xs:enumeration value="darkorchid" />
+                    <xs:enumeration value="darkred" />
+                    <xs:enumeration value="darksalmon" />
+                    <xs:enumeration value="darkseagreen" />
+                    <xs:enumeration value="darkslateblue" />
+                    <xs:enumeration value="darkslategray" />
+                    <xs:enumeration value="darkturquoise" />
+                    <xs:enumeration value="darkviolet" />
+                    <xs:enumeration value="deeppink" />
+                    <xs:enumeration value="deepskyblue" />
+                    <xs:enumeration value="dimgray" />
+                    <xs:enumeration value="dodgerblue" />
+                    <xs:enumeration value="firebrick" />
+                    <xs:enumeration value="floralwhite" />
+                    <xs:enumeration value="forestgreen" />
+                    <xs:enumeration value="fuchsia" />
+                    <xs:enumeration value="gainsboro" />
+                    <xs:enumeration value="ghostwhite" />
+                    <xs:enumeration value="gold" />
+                    <xs:enumeration value="goldenrod" />
+                    <xs:enumeration value="gray" />
+                    <xs:enumeration value="green" />
+                    <xs:enumeration value="greenyellow" />
+                    <xs:enumeration value="honeydew" />
+                    <xs:enumeration value="hotpink" />
+                    <xs:enumeration value="indianred" />
+                    <xs:enumeration value="indigo" />
+                    <xs:enumeration value="ivory" />
+                    <xs:enumeration value="khaki" />
+                    <xs:enumeration value="lavender" />
+                    <xs:enumeration value="lavenderblush" />
+                    <xs:enumeration value="lawngreen" />
+                    <xs:enumeration value="lemonchiffon" />
+                    <xs:enumeration value="lightblue" />
+                    <xs:enumeration value="lightcoral" />
+                    <xs:enumeration value="lightcyan" />
+                    <xs:enumeration value="lightgoldenrodyellow" />
+                    <xs:enumeration value="lightgrey" />
+                    <xs:enumeration value="lightgreen" />
+                    <xs:enumeration value="lightpink" />
+                    <xs:enumeration value="lightsalmon" />
+                    <xs:enumeration value="lightseagreen" />
+                    <xs:enumeration value="lightskyblue" />
+                    <xs:enumeration value="lightslategray" />
+                    <xs:enumeration value="lightsteelblue" />
+                    <xs:enumeration value="lightyellow" />
+                    <xs:enumeration value="lime" />
+                    <xs:enumeration value="limegreen" />
+                    <xs:enumeration value="linen" />
+                    <xs:enumeration value="magenta" />
+                    <xs:enumeration value="maroon" />
+                    <xs:enumeration value="mediumaquamarine" />
+                    <xs:enumeration value="mediumblue" />
+                    <xs:enumeration value="mediumorchid" />
+                    <xs:enumeration value="mediumpurple" />
+                    <xs:enumeration value="mediumseagreen" />
+                    <xs:enumeration value="mediumslateblue" />
+                    <xs:enumeration value="mediumspringgreen" />
+                    <xs:enumeration value="mediumturquoise" />
+                    <xs:enumeration value="mediumvioletred" />
+                    <xs:enumeration value="midnightblue" />
+                    <xs:enumeration value="mintcream" />
+                    <xs:enumeration value="mistyrose" />
+                    <xs:enumeration value="moccasin" />
+                    <xs:enumeration value="navajowhite" />
+                    <xs:enumeration value="navy" />
+                    <xs:enumeration value="none" />
+                    <xs:enumeration value="oldlace" />
+                    <xs:enumeration value="olive" />
+                    <xs:enumeration value="olivedrab" />
+                    <xs:enumeration value="orange" />
+                    <xs:enumeration value="orangered" />
+                    <xs:enumeration value="orchid" />
+                    <xs:enumeration value="palegoldenrod" />
+                    <xs:enumeration value="palegreen" />
+                    <xs:enumeration value="paleturquoise" />
+                    <xs:enumeration value="palevioletred" />
+                    <xs:enumeration value="papayawhip" />
+                    <xs:enumeration value="peachpuff" />
+                    <xs:enumeration value="peru" />
+                    <xs:enumeration value="pink" />
+                    <xs:enumeration value="plum" />
+                    <xs:enumeration value="powderblue" />
+                    <xs:enumeration value="purple" />
+                    <xs:enumeration value="red" />
+                    <xs:enumeration value="rosybrown" />
+                    <xs:enumeration value="royalblue" />
+                    <xs:enumeration value="saddlebrown" />
+                    <xs:enumeration value="salmon" />
+                    <xs:enumeration value="sandybrown" />
+                    <xs:enumeration value="seagreen" />
+                    <xs:enumeration value="seashell" />
+                    <xs:enumeration value="sienna" />
+                    <xs:enumeration value="silver" />
+                    <xs:enumeration value="skyblue" />
+                    <xs:enumeration value="slateblue" />
+                    <xs:enumeration value="slategray" />
+                    <xs:enumeration value="snow" />
+                    <xs:enumeration value="springgreen" />
+                    <xs:enumeration value="steelblue" />
+                    <xs:enumeration value="tan" />
+                    <xs:enumeration value="teal" />
+                    <xs:enumeration value="thistle" />
+                    <xs:enumeration value="tomato" />
+                    <xs:enumeration value="turquoise" />
+                    <xs:enumeration value="violet" />
+                    <xs:enumeration value="wheat" />
+                    <xs:enumeration value="white" />
+                    <xs:enumeration value="whitesmoke" />
+                    <xs:enumeration value="yellow" />
+                    <xs:enumeration value="yellowgreen" />
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="[0-9a-fA-F]{6,8}" />
+                    <xs:pattern value="\w+" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="controlchoiceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="image" />
+            <xs:enumeration value="multiimage"/>
+            <xs:enumeration value="largeimage"/>
+            <xs:enumeration value="label" />
+            <xs:enumeration value="spincontrol" />
+            <xs:enumeration value="spincontrolex"/>
+            <xs:enumeration value="edit" />
+            <xs:enumeration value="list" />
+            <xs:enumeration value="wraplist"/>
+            <xs:enumeration value="fixedlist"/>
+            <xs:enumeration value="fadelabel" />
+            <xs:enumeration value="textbox" />
+            <xs:enumeration value="progress" />
+            <xs:enumeration value="button" />
+            <xs:enumeration value="checkmark" />
+            <xs:enumeration value="group" />
+            <xs:enumeration value="grouplist" />
+            <xs:enumeration value="radiobutton" />
+            <xs:enumeration value="slider" />
+            <xs:enumeration value="sliderex"/>
+            <xs:enumeration value="rss"/>
+            <xs:enumeration value="selectbutton"/>
+            <xs:enumeration value="videowindow"/>
+            <xs:enumeration value="visualisation"/>
+            <xs:enumeration value="karvisualisation"/>
+            <xs:enumeration value="mover"/>
+            <xs:enumeration value="resize"/>
+            <xs:enumeration value="multiselect"/>
+            <xs:enumeration value="epggrid"/>
+            <xs:enumeration value="panel"/>
+            <xs:enumeration value="togglebutton"/>
+            <xs:enumeration value="scrollbar"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="coordinateStringType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="-?\d+(\.\d+)?,-?\d+(\.\d+)?" />
+            <xs:pattern value="-?\d+(\.\d+)?" />
+            <xs:pattern value="auto" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="easingType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="in"/>
+            <xs:enumeration value="out"/>
+            <xs:enumeration value="inout"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="effectsType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="WindowOpen" />
+            <xs:enumeration value="WindowClose" />
+            <xs:enumeration value="Visible" />
+            <xs:enumeration value="Hidden" />
+            <xs:enumeration value="Focus" />
+            <xs:enumeration value="Unfocus" />
+            <xs:enumeration value="Conditional" />
+            <xs:enumeration value="VisibleChange" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="orientationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="horizontal"/>
+            <xs:enumeration value="vertical"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positionType">
+        <xs:restriction base="xs:string">
+            <!--  If an "r" is included (eg 180r) then the measurement is taken from the parent's right edge (in the left direction). -->
+            <xs:pattern value="-?\d+(\.\d+)?(r|%)?" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="spinControlSubType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="int" />
+            <xs:enumeration value="page" />
+            <xs:enumeration value="float" />
+            <xs:enumeration value="text" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="startOrEndType">
+        <xs:restriction base="xs:string">
+            <!-- start is a percentage for fade -->
+            <!-- start is a degree for rotations -->
+            <xs:pattern value="-?\d{1,3}" />
+            <!-- start is a coordinateString for slide or zoom (technically for zoom its a , seperated list of 2 percents) -->
+            <!-- Note: With zooms you can also specify the coordinates and dimensions of the texture. (ie start="posx,posy,width,height"). -->
+            <xs:pattern value="-?\d+(\.\d+)?,-?\d+(\.\d+)?(,\d+(\.\d+)?,\d+(\.\d+)?)?" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="tweenType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="linear"/>
+            <xs:enumeration value="quadratic"/>
+            <xs:enumeration value="cubic"/>
+            <xs:enumeration value="sine"/>
+            <xs:enumeration value="back"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="bounce"/>
+            <xs:enumeration value="elastic"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="viewtypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="list" />
+            <xs:enumeration value="biglist" />
+            <xs:enumeration value="icon" />
+            <xs:enumeration value="bigicon" />
+            <xs:enumeration value="wide" />
+            <xs:enumeration value="bigwide" />
+            <xs:enumeration value="wrap"/>
+            <xs:enumeration value="bigwrap"/>
+            <xs:enumeration value="info"/>
+            <xs:enumeration value="biginfo"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:group name="groupcontrolType">
+        <!-- This contains MANY things that aren't applicable to everything, I'll go through it eventually and sort it out -->
+        <xs:choice>
+            <xs:element ref="include" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="id" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="posx" type="positionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="left" type="positionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="posy" type="positionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="top" type="positionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="right" type="xs:unsignedInt" minOccurs="0" maxOccurs="1" />
+            <xs:element name="bottom" type="xs:unsignedInt" minOccurs="0" maxOccurs="1" />
+            <xs:element name="width" type="heightWidthType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="height" type="heightWidthType" minOccurs="0" maxOccurs="1" />
+            <xs:element ref="visible" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="animation" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="camera" minOccurs="0" maxOccurs="1" />
+            <xs:element name="colordiffuse" type="colorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="onup" type="actionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="ondown" type="actionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="onleft" type="actionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="onright" type="actionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="hitrect" type="hitrectType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="enable" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="pulseonselect" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+            <xs:element ref="control" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="align" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="aligny" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="number" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="angle" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="font" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="textcolor" type="colorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="shadowcolor" type="colorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="scrollspeed" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="scrollsuffix" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="textoffsetx" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="aspectratio" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="aspectratioType">
+                            <xs:attribute name="align" type="alignType" />
+                            <xs:attribute name="aligny" type="alignyType" />
+                            <xs:attribute name="scalediffuse" type="xs:boolean" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="focusedcolor" type="colorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="disabledcolor" type="colorType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="textoffsety" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="textwidth" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="onback" type="actionType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="controloffsetx" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="controloffsety" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="highlightcolor" type="colorType" minOccurs="0" maxOccurs="1" />
+        </xs:choice>
+    </xs:group>
+
+    <xs:group name="groupcontrolTypeList">
+        <xs:choice>
+            <xs:group ref="groupcontrolType" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="scrolltime" type="scrolltimeType" maxOccurs="1" minOccurs="0" />
+            <xs:element name="preloaditems" type="xs:unsignedInt" maxOccurs="1" minOccurs="0" />
+            <xs:element name="itemlayout" type="controlTypeListItem" maxOccurs="1" minOccurs="0" />
+            <xs:element name="focusedlayout" type="controlTypeListItem" maxOccurs="1" minOccurs="0" />
+            <xs:element name="orientation" type="orientationType" maxOccurs="1" minOccurs="0" />
+            <xs:element name="pagecontrol" type="xs:string" maxOccurs="1" minOccurs="0" />
+            <xs:element name="content" type="controlTypeContent" maxOccurs="1" minOccurs="0"/>
+            <xs:element ref="viewtype" maxOccurs="1" minOccurs="0" />
+        </xs:choice>
+    </xs:group>
+</xs:schema>
